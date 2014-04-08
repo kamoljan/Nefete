@@ -1,6 +1,7 @@
 package org.kamol.nefete;
 
 import android.app.Application;
+import android.content.Context;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,5 +30,15 @@ public class NefeteApp extends Application {
     return applicationGraph;
   }
 
+
+//  //TODO: Added from U2020, is it correct?
+//  public void inject(Object o) {
+//    applicationGraph.inject(o);
+//  }
+//
+//  //TODO: Added from U2020, is it correct?
+//  public static NefeteApp get(Context context) {
+//    return (NefeteApp) context.getApplicationContext();
+//  }
 
 }

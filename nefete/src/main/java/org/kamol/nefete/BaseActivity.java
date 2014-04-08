@@ -40,7 +40,7 @@ public abstract class BaseActivity extends FragmentActivity {
   }
 
   /** Inject the supplied {@code object} using the activity-specific graph. */
-  public void inject(Object object) {
-    activityGraph.inject(object);
+  public void inject(Object o) {
+    activityGraph.inject(o);
   }
 }

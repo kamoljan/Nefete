@@ -2,8 +2,11 @@ package org.kamol.nefete;
 
 import android.content.Context;
 
+import org.kamol.nefete.data.DataModule;
 import org.kamol.nefete.ui.activity.MainActivity;
 import org.kamol.nefete.ui.fragment.MainFragment;
+import org.kamol.nefete.ui.fragment.PagerFragment;
+import org.kamol.nefete.ui.gallery.GalleryView;
 
 import javax.inject.Singleton;
 
@@ -18,7 +21,9 @@ import dagger.Provides;
 @Module(
     injects = {
         MainActivity.class,
-        MainFragment.class
+        MainFragment.class,
+        DataModule.class,
+        PagerFragment.class
     },
     addsTo = AndroidModule.class,
     library = true
