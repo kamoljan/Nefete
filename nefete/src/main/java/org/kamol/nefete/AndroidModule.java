@@ -18,8 +18,8 @@ import static android.content.Context.LOCATION_SERVICE;
  * {@link android.app.Application} to create.
  */
 @Module(
-//    includes = DataModule.class,
-    injects = DataModule.class,
+    includes = DataModule.class,
+//    injects = DataModule.class,
     complete = false,
     library = true
 )

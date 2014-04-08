@@ -31,12 +31,12 @@ public class NefeteApp extends Application {
   }
 
 
-//  //TODO: Added from U2020, is it correct?
+  //TODO: Added from U2020, is it correct?
 //  public void inject(Object o) {
 //    applicationGraph.inject(o);
 //  }
-//
-//  //TODO: Added from U2020, is it correct?
+
+  //TODO: Added from U2020, is it correct?
 //  public static NefeteApp get(Context context) {
 //    return (NefeteApp) context.getApplicationContext();
 //  }

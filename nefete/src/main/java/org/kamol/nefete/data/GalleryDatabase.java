@@ -5,7 +5,6 @@ import org.kamol.nefete.data.api.model.Image;
 import org.kamol.nefete.data.api.transforms.GalleryToImageList;
 import org.kamol.nefete.data.rx.EndObserver;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,8 +24,7 @@ import rx.util.functions.Func1;
 @Singleton
 public class GalleryDatabase {
   private final GalleryService galleryService;
-
-//  private final List<Image> galleryCache = new ArrayList<Image>();
+  //  private final List<Image> galleryCache = new ArrayList<Image>();
 //  private final PublishSubject<List<Image>> galleryRequests = new ArrayList<Image>();
   private final Map<Integer, List<Image>> galleryCache = new LinkedHashMap<>();
   private final Map<Integer, PublishSubject<List<Image>>> galleryRequests = new LinkedHashMap<>();

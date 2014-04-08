@@ -32,7 +32,7 @@ public final class ApiModule {
     return new RestAdapter.Builder() //
         .setClient(client) //
         .setEndpoint(endpoint) //
-        //.setRequestInterceptor(headers) //
+            //.setRequestInterceptor(headers) //
         .build();
   }
 

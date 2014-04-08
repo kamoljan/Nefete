@@ -22,8 +22,9 @@ import dagger.Provides;
     injects = {
         MainActivity.class,
         //MainFragment.class,
-        DataModule.class,
-        PagerFragment.class
+        //DataModule.class,
+        PagerFragment.class,
+        GalleryView.class
     },
     addsTo = AndroidModule.class,
     library = true
