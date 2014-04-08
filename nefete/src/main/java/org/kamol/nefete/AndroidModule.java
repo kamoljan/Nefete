@@ -20,7 +20,7 @@ import static android.content.Context.LOCATION_SERVICE;
 @Module(
 //    includes = DataModule.class,
     injects = DataModule.class,
-//    complete = false,
+    complete = false,
     library = true
 )
 public class AndroidModule {

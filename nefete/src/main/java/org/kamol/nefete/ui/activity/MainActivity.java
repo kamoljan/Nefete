@@ -29,7 +29,7 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener 
 
     if (savedInstanceState == null) {
       getSupportFragmentManager().beginTransaction()
-          .add(android.R.id.content, MainFragment.newInstance())
+          .add(android.R.id.content, PagerFragment.newInstance())
           .commit();
     }
 

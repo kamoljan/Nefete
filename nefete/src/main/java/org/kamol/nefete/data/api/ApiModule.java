@@ -17,8 +17,8 @@ import retrofit.client.OkClient;
     library = true
 )
 public final class ApiModule {
-//  public static final String PRODUCTION_API_URL = "http://nefete.com";
-  public static final String PRODUCTION_API_URL = "http://10.40.3.182:8080";
+  public static final String PRODUCTION_API_URL = "http://nefete.com:8080/";
+//  public static final String PRODUCTION_API_URL = "http://10.40.3.182:8080/";
 
   @Provides @Singleton Endpoint provideEndpoint() {
     return Endpoints.newFixedEndpoint(PRODUCTION_API_URL);

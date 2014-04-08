@@ -19,7 +19,7 @@ public class MainFragment extends BaseFragment {
                                      Bundle savedInstanceState) {
     TextView tv = new TextView(getActivity());
     tv.setGravity(CENTER);
-    tv.setText("Hello Kenta");
+    tv.setText("Hello Papa");
     return tv;
   }
 
