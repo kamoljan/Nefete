@@ -1,10 +1,10 @@
 package org.kamol.nefete;
 
+import android.app.Application;
 import android.content.Context;
 import android.location.LocationManager;
 
 import org.kamol.nefete.data.DataModule;
-import org.kamol.nefete.ui.gallery.GalleryView;
 
 import javax.inject.Singleton;
 
@@ -19,7 +19,6 @@ import static android.content.Context.LOCATION_SERVICE;
  */
 @Module(
     includes = DataModule.class,
-//    injects = DataModule.class,
     complete = false,
     library = true
 )
@@ -35,11 +34,18 @@ public class AndroidModule {
    * {@link ForApplication @ForApplication} to explicitly differentiate it
    * from an activity context.
    */
-  @Provides @Singleton @ForApplication Context provideApplicationContext() {
+  //@Provides @Singleton @ForApplication Context provideApplicationContext() {
+  //  return application;
+  //}
+
+  //http://stackoverflow.com/questions/22942327/no-injectable-members-on-android-app-application
+  // -do-you-want-to-add-an-injectab
+  @Provides @Singleton Application provideApplicationContext() {
     return application;
   }
 
   @Provides @Singleton LocationManager provideLocationManager() {
     return (LocationManager) application.getSystemService(LOCATION_SERVICE);
   }
+
 }
