@@ -21,7 +21,7 @@ import dagger.Provides;
 @Module(
     injects = {
         MainActivity.class,
-        //MainFragment.class,
+        MainFragment.class,
         PagerFragment.class,
     },
     addsTo = AndroidModule.class,

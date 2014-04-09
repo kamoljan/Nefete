@@ -20,17 +20,9 @@ public class PagerFragment extends BaseFragment {
                                      Bundle savedInstanceState) {
     final View view = inflater.inflate(R.layout.gallery_view, container, false);
     return view;
-
-//    TextView tv = new TextView(getActivity());
-//    tv.setGravity(CENTER);
-//    tv.setText("Hello Kenta-san");
-//    return tv;
   }
 
   @Override public void onResume() {
     super.onResume();
-
-    //
   }
-
 }

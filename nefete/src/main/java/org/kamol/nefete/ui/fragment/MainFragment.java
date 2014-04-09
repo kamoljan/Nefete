@@ -19,13 +19,11 @@ public class MainFragment extends BaseFragment {
                                      Bundle savedInstanceState) {
     TextView tv = new TextView(getActivity());
     tv.setGravity(CENTER);
-    tv.setText("Hello Papa");
+    tv.setText("MainFragment");
     return tv;
   }
 
   @Override public void onResume() {
     super.onResume();
-
-    //
   }
 }

@@ -29,7 +29,7 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener 
 
     if (savedInstanceState == null) {
       getSupportFragmentManager().beginTransaction()
-          .add(android.R.id.content, PagerFragment.newInstance())
+          .add(android.R.id.content, MainFragment.newInstance())
           .commit();
     }
 
@@ -103,9 +103,9 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener 
         case 0:
           return PagerFragment.newInstance();
         case 1:
-          return PagerFragment.newInstance();
+          return MainFragment.newInstance();
         default:
-          return PagerFragment.newInstance();
+          return MainFragment.newInstance();
       }
     }
 

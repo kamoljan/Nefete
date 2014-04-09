@@ -25,7 +25,7 @@ public class GalleryView extends BetterViewAnimator {
   @InjectView(R.id.gallery_grid) AbsListView galleryView;
   @Inject Picasso picasso;
   @Inject GalleryDatabase galleryDatabase;
-  private int category = 0; // FIXME: how category should be passed here?
+  private int category = 0; // 0 is all categories :TODO move to conf or store in SharedPreferences
   private Subscription request;
   private final GalleryAdapter adapter;
 
