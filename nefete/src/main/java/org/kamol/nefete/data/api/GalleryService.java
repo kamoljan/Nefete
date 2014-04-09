@@ -9,7 +9,9 @@ import org.kamol.nefete.data.api.model.Gallery;
 
 public interface GalleryService {
   @GET("/listing/{category}/{limit}/{sort}") //
-  Observable<Gallery> listGallery(@Path("category") int category, //
-                                  @Path("limit") int limit, //
-                                  @Path("sort") Sort sort);
+  Observable<Gallery> listGallery(
+      @Path("category") int category,
+      @Path("limit") int limit,
+      @Path("sort") Sort sort
+  );
 }

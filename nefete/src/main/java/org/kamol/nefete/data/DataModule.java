@@ -21,7 +21,6 @@ import timber.log.Timber;
 import static android.content.Context.MODE_PRIVATE;
 
 import org.kamol.nefete.data.api.ApiModule;
-import org.kamol.nefete.ui.gallery.GalleryView;
 
 @Module(
     includes = ApiModule.class,
