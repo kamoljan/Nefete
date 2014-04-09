@@ -32,13 +32,13 @@ public class NefeteApp extends Application {
 
 
   //TODO: Added from U2020, is it correct?
-//  public void inject(Object o) {
-//    applicationGraph.inject(o);
-//  }
+  public void inject(Object o) {
+    applicationGraph.inject(o);
+  }
 
   //TODO: Added from U2020, is it correct?
-//  public static NefeteApp get(Context context) {
-//    return (NefeteApp) context.getApplicationContext();
-//  }
+  public static NefeteApp get(Context context) {
+    return (NefeteApp) context.getApplicationContext();
+  }
 
 }

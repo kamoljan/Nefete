@@ -14,3 +14,4 @@ public abstract class EndObserver<T> implements Observer<T> {
 
   public abstract void onEnd();
 }
+

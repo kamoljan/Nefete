@@ -31,7 +31,7 @@ public class GalleryView extends BetterViewAnimator {
 
   public GalleryView(Context context, AttributeSet attrs) {
     super(context, attrs);
-    //NefeteApp.get(context).inject(this);
+    NefeteApp.get(context).inject(this);
 
     adapter = new GalleryAdapter(context, picasso);
   }
@@ -45,6 +45,7 @@ public class GalleryView extends BetterViewAnimator {
 
   @Override protected void onAttachedToWindow() {
     super.onAttachedToWindow();
+
     request = galleryDatabase.loadGallery(category, new EndlessObserver<List<Image>>() {
       @Override public void onNext(List<Image> images) {
         adapter.replaceWith(images);
