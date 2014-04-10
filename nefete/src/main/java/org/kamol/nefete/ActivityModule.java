@@ -2,6 +2,8 @@ package org.kamol.nefete;
 
 import android.content.Context;
 
+import com.squareup.otto.Bus;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -40,5 +42,9 @@ public class ActivityModule {
    */
   @Provides @Singleton @ForActivity Context provideActivityContext() {
     return activity;
+  }
+
+  @Provides @Singleton Bus provideBus() {
+    return new Bus();
   }
 }

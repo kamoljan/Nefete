@@ -17,12 +17,12 @@ import com.facebook.UiLifecycleHelper;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Produce;
 
-
+import org.kamol.nefete.BaseFragment;
 import org.kamol.nefete.R;
 //import org.kamol.nefete.bus.BusProvider;
 import org.kamol.nefete.event.ActivityResultEvent;
 
-public class InsertAdFragment extends Fragment {
+public class InsertAdFragment extends BaseFragment {
   private static final String TAG = "InsertAdFragment";
   @Inject Bus eventBus;
   private UiLifecycleHelper uiHelper;
