@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/ll_login_container"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical"
+              android:background="#303040">
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="#AFDEFE"
+            android:textSize="28sp"
+            android:typeface="serif"
+            android:textStyle="italic"
+            android:text="@string/app_name"/>
+    <TextView
+            android:id="@+id/tv_message"
+            android:layout_width="174dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:textColor="#AFDEFE"
+            android:lines="2"
+            android:textSize="17sp"
+            android:text="Login to post your add"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"/>
+    <com.facebook.widget.LoginButton
+            android:id="@+id/lb_facebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"/>
+</LinearLayout>

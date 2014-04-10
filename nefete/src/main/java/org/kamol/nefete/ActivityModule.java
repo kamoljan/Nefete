@@ -2,16 +2,15 @@ package org.kamol.nefete;
 
 import android.content.Context;
 
-import org.kamol.nefete.data.DataModule;
-import org.kamol.nefete.ui.activity.MainActivity;
-import org.kamol.nefete.ui.fragment.MainFragment;
-import org.kamol.nefete.ui.fragment.PagerFragment;
-import org.kamol.nefete.ui.gallery.GalleryView;
-
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+
+import org.kamol.nefete.ui.activity.MainActivity;
+import org.kamol.nefete.ui.fragment.InsertAdFragment;
+import org.kamol.nefete.ui.fragment.MainFragment;
+import org.kamol.nefete.ui.fragment.PagerFragment;
 
 /**
  * This module represents objects which exist only for the scope of a single activity.
@@ -23,6 +22,7 @@ import dagger.Provides;
         MainActivity.class,
         MainFragment.class,
         PagerFragment.class,
+        InsertAdFragment.class
     },
     addsTo = AndroidModule.class,
     library = true
