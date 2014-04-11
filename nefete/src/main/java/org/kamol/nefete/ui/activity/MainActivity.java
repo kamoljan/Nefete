@@ -11,7 +11,7 @@ import android.support.v4.view.ViewPager;
 
 import org.kamol.nefete.BaseActivity;
 import org.kamol.nefete.R;
-import org.kamol.nefete.ui.fragment.InsertAdFragment;
+import org.kamol.nefete.ui.fragment.InsertAdContainerFragment;
 import org.kamol.nefete.ui.fragment.MainFragment;
 import org.kamol.nefete.ui.fragment.PagerFragment;
 
@@ -104,7 +104,7 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener 
         case 0:
           return PagerFragment.newInstance();
         case 1:
-          return InsertAdFragment.newInstance();
+          return InsertAdContainerFragment.newInstance();
         default:
           return MainFragment.newInstance();
       }

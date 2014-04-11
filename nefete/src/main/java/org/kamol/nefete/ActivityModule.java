@@ -10,6 +10,7 @@ import dagger.Module;
 import dagger.Provides;
 
 import org.kamol.nefete.ui.activity.MainActivity;
+import org.kamol.nefete.ui.fragment.InsertAdContainerFragment;
 import org.kamol.nefete.ui.fragment.InsertAdFragment;
 import org.kamol.nefete.ui.fragment.MainFragment;
 import org.kamol.nefete.ui.fragment.PagerFragment;
@@ -24,7 +25,8 @@ import org.kamol.nefete.ui.fragment.PagerFragment;
         MainActivity.class,
         MainFragment.class,
         PagerFragment.class,
-        InsertAdFragment.class
+        InsertAdFragment.class,
+        InsertAdContainerFragment.class
     },
     addsTo = AndroidModule.class,
     library = true

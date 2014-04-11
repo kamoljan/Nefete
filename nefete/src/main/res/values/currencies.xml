@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="currency_array">
+        <item>SGD</item>
+        <item>IDR</item>
+        <item>MYR</item>
+        <item>PHP</item>
+        <item>VND</item>
+    </string-array>
+</resources>

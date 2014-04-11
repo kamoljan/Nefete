@@ -11,7 +11,7 @@ import com.facebook.widget.LoginButton;
 import org.kamol.nefete.R;
 
 public class SplashFragment extends Fragment {
-    private static final String TAG = "SplashFragment";
+    static final String TAG = "SplashFragment";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
