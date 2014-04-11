@@ -9,6 +9,8 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
+import org.kamol.nefete.bus.BusProvider;
+import org.kamol.nefete.event.ActivityResultEvent;
 import org.kamol.nefete.ui.activity.MainActivity;
 import org.kamol.nefete.ui.fragment.InsertAdContainerFragment;
 import org.kamol.nefete.ui.fragment.InsertAdFragment;
@@ -26,7 +28,8 @@ import org.kamol.nefete.ui.fragment.PagerFragment;
         MainFragment.class,
         PagerFragment.class,
         InsertAdFragment.class,
-        InsertAdContainerFragment.class
+        InsertAdContainerFragment.class,
+        ActivityResultEvent.class
     },
     addsTo = AndroidModule.class,
     library = true
@@ -49,4 +52,7 @@ public class ActivityModule {
   @Provides @Singleton Bus provideBus() {
     return new Bus();
   }
+//  @Provides @Singleton Bus provideBus() {
+//    return BusProvider.getInstance();
+//  }
 }

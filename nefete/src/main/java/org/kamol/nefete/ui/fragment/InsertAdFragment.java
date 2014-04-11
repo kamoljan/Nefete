@@ -179,35 +179,27 @@ public class InsertAdFragment extends BaseFragment implements ImageChooserDialog
       @Override public void onSuccess(JSONObject jsonObject) {
         Log.d(TAG, jsonObject.toString());
         Gson gson = new GsonBuilder().create();
-        Message mes = gson.fromJson(jsonObject.toString(), Message.class);
-        if (mes.status.equals("OK")) {
+        Message message = gson.fromJson(jsonObject.toString(), Message.class);
+        if (message.status.equals("OK")) {
           // TODO: getActivity() can be NullPointerException
           Toast.makeText(getActivity(), "Uploaded successfully", Toast.LENGTH_SHORT).show();
           switch (insertAdImageAdapter.getRealCount()) {
             case 0:
-              mAd.setImage1(mes.result.newborn);
+              mAd.setImage1(message.data.newborn);
               insertAdImageAdapter.addItem(GoRestClient.getAbsoluteUrl(":9090/egg/" + mAd
                   .getImage1()));
-//              insertAdImageAdapter.setItem(0, GoRestClient.getAbsoluteUrl(":9090/egg/" + mAd
-// .getImage1()));
               break;
             case 1:
-              mAd.setImage2(mes.result.newborn);
+              mAd.setImage2(message.data.newborn);
               insertAdImageAdapter.addItem(GoRestClient.getAbsoluteUrl(":9090/egg/" + mAd
                   .getImage2()));
-//              insertAdImageAdapter.setItem(1, GoRestClient.getAbsoluteUrl(":9090/egg/" + mAd
-// .getImage2()));
               break;
             case 2:
-              mAd.setImage3(mes.result.newborn);
+              mAd.setImage3(message.data.newborn);
               insertAdImageAdapter.addItem(GoRestClient.getAbsoluteUrl(":9090/egg/" + mAd
                   .getImage3()));
-//              insertAdImageAdapter.setItem(2, GoRestClient.getAbsoluteUrl(":9090/egg/" + mAd
-// .getImage3()));
               break;
           }
-//          insertAdImageAdapter.setItem(position, GoRestClient.getAbsoluteUrl(":9090/egg/" + mes
-// .result.newborn));
         }
       }
 
@@ -219,9 +211,9 @@ public class InsertAdFragment extends BaseFragment implements ImageChooserDialog
 
   public class Message {
     public String status;
-    public Result result;
+    public Data data;
 
-    public class Result {
+    public class Data {
       private String newborn;
     }
   }

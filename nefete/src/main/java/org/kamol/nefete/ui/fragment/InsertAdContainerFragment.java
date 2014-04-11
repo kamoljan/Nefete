@@ -19,7 +19,6 @@ import com.squareup.otto.Produce;
 
 import org.kamol.nefete.BaseFragment;
 import org.kamol.nefete.R;
-//import org.kamol.nefete.bus.BusProvider;
 import org.kamol.nefete.event.ActivityResultEvent;
 
 public class InsertAdContainerFragment extends BaseFragment {
