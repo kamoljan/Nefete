@@ -21,19 +21,19 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import rx.Subscription;
 
-public class GalleryView extends BetterViewAnimator {
+public class ListingView extends BetterViewAnimator {
   @InjectView(R.id.gallery_grid) AbsListView galleryView;
   @Inject Picasso picasso;
   @Inject GalleryDatabase galleryDatabase;
   private int category = 0; // 0 is all categories :TODO move to conf or store in SharedPreferences
   private Subscription request;
-  private final GalleryAdapter adapter;
+  private final ListingAdapter adapter;
 
-  public GalleryView(Context context, AttributeSet attrs) {
+  public ListingView(Context context, AttributeSet attrs) {
     super(context, attrs);
     NefeteApp.get(context).inject(this);
 
-    adapter = new GalleryAdapter(context, picasso);
+    adapter = new ListingAdapter(context, picasso);
   }
 
   @Override protected void onFinishInflate() {

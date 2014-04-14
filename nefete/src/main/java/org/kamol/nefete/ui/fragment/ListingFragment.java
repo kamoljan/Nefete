@@ -8,18 +8,14 @@ import android.view.ViewGroup;
 import org.kamol.nefete.BaseFragment;
 import org.kamol.nefete.R;
 
-public class PagerFragment extends BaseFragment {
-  public static PagerFragment newInstance() {
-    return new PagerFragment();
+public class ListingFragment extends BaseFragment {
+  public static ListingFragment newInstance() {
+    return new ListingFragment();
   }
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                      Bundle savedInstanceState) {
-    final View view = inflater.inflate(R.layout.gallery_view, container, false);
-    return view;
+    return inflater.inflate(R.layout.gallery_listing_view, container, false);
   }
 
-  @Override public void onResume() {
-    super.onResume();
-  }
 }

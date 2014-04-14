@@ -12,8 +12,9 @@ import android.support.v4.view.ViewPager;
 import org.kamol.nefete.BaseActivity;
 import org.kamol.nefete.R;
 import org.kamol.nefete.ui.fragment.InsertAdContainerFragment;
+import org.kamol.nefete.ui.fragment.ListingFragment;
 import org.kamol.nefete.ui.fragment.MainFragment;
-import org.kamol.nefete.ui.fragment.PagerFragment;
+import org.kamol.nefete.ui.fragment.ProfileFragment;
 
 import javax.inject.Inject;
 
@@ -102,11 +103,11 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener 
     public Fragment getItem(int position) {
       switch (position) {
         case 0:
-          return PagerFragment.newInstance();
+          return ListingFragment.newInstance();
         case 1:
           return InsertAdContainerFragment.newInstance();
         default:
-          return MainFragment.newInstance();
+          return ProfileFragment.newInstance();
       }
     }
 

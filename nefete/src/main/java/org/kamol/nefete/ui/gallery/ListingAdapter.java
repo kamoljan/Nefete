@@ -14,12 +14,12 @@ import org.kamol.nefete.ui.misc.BindableAdapter;
 import java.util.Collections;
 import java.util.List;
 
-public class GalleryAdapter extends BindableAdapter<Image> {
+public class ListingAdapter extends BindableAdapter<Image> {
   private List<Image> images = Collections.emptyList();
 
   private final Picasso picasso;
 
-  public GalleryAdapter(Context context, Picasso picasso) {
+  public ListingAdapter(Context context, Picasso picasso) {
     super(context);
     this.picasso = picasso;
   }
@@ -42,10 +42,10 @@ public class GalleryAdapter extends BindableAdapter<Image> {
   }
 
   @Override public View newView(LayoutInflater inflater, int position, ViewGroup container) {
-    return inflater.inflate(R.layout.gallery_view_image, container, false);
+    return inflater.inflate(R.layout.gallery_listing_view_image, container, false);
   }
 
   @Override public void bindView(Image item, int position, View view) {
-    ((GalleryItemView) view).bindTo(item, picasso);
+    ((ListingItemView) view).bindTo(item, picasso);
   }
 }

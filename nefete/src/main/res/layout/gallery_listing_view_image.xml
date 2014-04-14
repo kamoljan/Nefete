@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<org.kamol.nefete.ui.gallery.GalleryItemView
+<org.kamol.nefete.ui.gallery.ListingItemView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -28,4 +28,4 @@
       tools:text="This Is The Title"
       style="@style/Widget.Nefete.GalleryImage"
       />
-</org.kamol.nefete.ui.gallery.GalleryItemView>
+</org.kamol.nefete.ui.gallery.ListingItemView>

@@ -9,13 +9,12 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
-import org.kamol.nefete.bus.BusProvider;
 import org.kamol.nefete.event.ActivityResultEvent;
 import org.kamol.nefete.ui.activity.MainActivity;
 import org.kamol.nefete.ui.fragment.InsertAdContainerFragment;
 import org.kamol.nefete.ui.fragment.InsertAdFragment;
+import org.kamol.nefete.ui.fragment.ListingFragment;
 import org.kamol.nefete.ui.fragment.MainFragment;
-import org.kamol.nefete.ui.fragment.PagerFragment;
 
 /**
  * This module represents objects which exist only for the scope of a single activity.
@@ -26,7 +25,7 @@ import org.kamol.nefete.ui.fragment.PagerFragment;
     injects = {
         MainActivity.class,
         MainFragment.class,
-        PagerFragment.class,
+        ListingFragment.class,
         InsertAdFragment.class,
         InsertAdContainerFragment.class,
         ActivityResultEvent.class

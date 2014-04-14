@@ -7,13 +7,6 @@ import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import static android.widget.Toast.LENGTH_SHORT;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnClick;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
@@ -22,14 +15,18 @@ import org.kamol.nefete.R;
 import org.kamol.nefete.data.api.model.Image;
 import org.kamol.nefete.ui.activity.ViewActivity;
 
-public class GalleryItemView extends FrameLayout {
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+
+public class MyAdsItemView extends FrameLayout {
   @InjectView(R.id.gallery_image_image) ImageView image;
   @InjectView(R.id.gallery_image_title) TextView title;
   private float aspectRatio = 1;
   private RequestCreator request;
   private String adId;
 
-  public GalleryItemView(Context context, AttributeSet attrs) {
+  public MyAdsItemView(Context context, AttributeSet attrs) {
     super(context, attrs);
   }
 
@@ -65,6 +62,7 @@ public class GalleryItemView extends FrameLayout {
   }
 
   @OnClick(R.id.gallery_image_image) void onStartViewActivity() {
+    // TODO: Inject it or move to somewhere
     Intent i = new Intent(getContext(), ViewActivity.class);
     Bundle b = new Bundle();
     b.putString("adId", adId);

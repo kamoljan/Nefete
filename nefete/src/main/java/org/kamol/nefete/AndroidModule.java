@@ -5,7 +5,7 @@ import android.content.Context;
 import android.location.LocationManager;
 
 import org.kamol.nefete.data.DataModule;
-import org.kamol.nefete.ui.gallery.GalleryView;
+import org.kamol.nefete.ui.gallery.ListingView;
 
 import javax.inject.Singleton;
 
@@ -19,7 +19,7 @@ import static android.content.Context.LOCATION_SERVICE;
  * {@link android.app.Application} to create.
  */
 @Module(
-    injects = GalleryView.class,
+    injects = ListingView.class,
     includes = DataModule.class,
     complete = false,
     library = true
