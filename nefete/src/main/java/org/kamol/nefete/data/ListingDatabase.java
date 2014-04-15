@@ -1,6 +1,6 @@
 package org.kamol.nefete.data;
 
-import org.kamol.nefete.data.api.GalleryService;
+import org.kamol.nefete.data.api.ListingService;
 import org.kamol.nefete.data.api.model.Image;
 import org.kamol.nefete.data.api.transforms.GalleryToImageList;
 import org.kamol.nefete.data.rx.EndObserver;
@@ -22,15 +22,15 @@ import rx.util.functions.Func1;
 
 /** Poor-man's in-memory cache of responses. Must be accessed on the main thread. */
 @Singleton
-public class GalleryDatabase {
-  private final GalleryService galleryService;
+public class ListingDatabase {
+  private final ListingService listingService;
   //  private final List<Image> galleryCache = new ArrayList<Image>();
 //  private final PublishSubject<List<Image>> galleryRequests = new ArrayList<Image>();
   private final Map<Integer, List<Image>> galleryCache = new LinkedHashMap<>();
   private final Map<Integer, PublishSubject<List<Image>>> galleryRequests = new LinkedHashMap<>();
 
-  @Inject public GalleryDatabase(GalleryService galleryService) {
-    this.galleryService = galleryService;
+  @Inject public ListingDatabase(ListingService listingService) {
+    this.listingService = listingService;
   }
 
   // TODO pull underlying logic into a re-usable component for debouncing and caching last value.
@@ -63,7 +63,7 @@ public class GalleryDatabase {
     });
 
     // Warning: Gross shit follows! Where you at Java 8?
-    galleryService.listGallery(category, 20, Sort.DATE)
+    listingService.listGallery(category, 20, Sort.DATE)
         .map(new GalleryToImageList())
         .flatMap(new Func1<List<Image>, Observable<Image>>() {
           @Override public Observable<Image> call(List<Image> images) {

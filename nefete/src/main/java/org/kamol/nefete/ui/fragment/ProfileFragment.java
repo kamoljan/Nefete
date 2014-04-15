@@ -9,12 +9,12 @@ import org.kamol.nefete.BaseFragment;
 import org.kamol.nefete.R;
 
 public class ProfileFragment extends BaseFragment {
-  public static ListingFragment newInstance() {
-    return new ListingFragment();
+  public static ProfileFragment newInstance() {
+    return new ProfileFragment();
   }
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                      Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.gallery_listing_view, container, false);
+    return inflater.inflate(R.layout.gallery_myads_view, container, false);
   }
 }

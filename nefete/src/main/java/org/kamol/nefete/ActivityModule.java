@@ -15,6 +15,7 @@ import org.kamol.nefete.ui.fragment.InsertAdContainerFragment;
 import org.kamol.nefete.ui.fragment.InsertAdFragment;
 import org.kamol.nefete.ui.fragment.ListingFragment;
 import org.kamol.nefete.ui.fragment.MainFragment;
+import org.kamol.nefete.ui.fragment.ProfileFragment;
 
 /**
  * This module represents objects which exist only for the scope of a single activity.
@@ -28,7 +29,9 @@ import org.kamol.nefete.ui.fragment.MainFragment;
         ListingFragment.class,
         InsertAdFragment.class,
         InsertAdContainerFragment.class,
-        ActivityResultEvent.class
+        ActivityResultEvent.class,
+
+        ProfileFragment.class
     },
     addsTo = AndroidModule.class,
     library = true

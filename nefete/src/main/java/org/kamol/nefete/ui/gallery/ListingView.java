@@ -8,7 +8,7 @@ import com.squareup.picasso.Picasso;
 
 import org.kamol.nefete.NefeteApp;
 import org.kamol.nefete.R;
-import org.kamol.nefete.data.GalleryDatabase;
+import org.kamol.nefete.data.ListingDatabase;
 import org.kamol.nefete.data.api.model.Image;
 import org.kamol.nefete.data.rx.EndlessObserver;
 import org.kamol.nefete.ui.misc.BetterViewAnimator;
@@ -24,7 +24,7 @@ import rx.Subscription;
 public class ListingView extends BetterViewAnimator {
   @InjectView(R.id.gallery_grid) AbsListView galleryView;
   @Inject Picasso picasso;
-  @Inject GalleryDatabase galleryDatabase;
+  @Inject ListingDatabase listingDatabase;
   private int category = 0; // 0 is all categories :TODO move to conf or store in SharedPreferences
   private Subscription request;
   private final ListingAdapter adapter;
@@ -46,7 +46,7 @@ public class ListingView extends BetterViewAnimator {
   @Override protected void onAttachedToWindow() {
     super.onAttachedToWindow();
 
-    request = galleryDatabase.loadGallery(category, new EndlessObserver<List<Image>>() {
+    request = listingDatabase.loadGallery(category, new EndlessObserver<List<Image>>() {
       @Override public void onNext(List<Image> images) {
         adapter.replaceWith(images);
         setDisplayedChildId(R.id.gallery_grid);

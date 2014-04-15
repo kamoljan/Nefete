@@ -36,7 +36,11 @@ public final class ApiModule {
         .build();
   }
 
-  @Provides @Singleton GalleryService provideGalleryService(RestAdapter restAdapter) {
-    return restAdapter.create(GalleryService.class);
+  @Provides @Singleton ListingService provideListingService(RestAdapter restAdapter) {
+    return restAdapter.create(ListingService.class);
+  }
+
+  @Provides @Singleton MyAdsService provideMyAdsService(RestAdapter restAdapter) {
+    return restAdapter.create(MyAdsService.class);
   }
 }
