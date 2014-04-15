@@ -1,38 +1,29 @@
 package org.kamol.nefete.ui.gallery;
 
+import java.util.List;
+
+import javax.inject.Inject;
+
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.AbsListView;
-import android.widget.Toast;
 
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.model.GraphUser;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONObject;
-import org.kamol.nefete.NefeteApp;
-import org.kamol.nefete.R;
-import org.kamol.nefete.data.ListingDatabase;
-import org.kamol.nefete.data.MyAdsDatabase;
-import org.kamol.nefete.data.api.model.Image;
-import org.kamol.nefete.data.rx.EndlessObserver;
-import org.kamol.nefete.http.GoRestClient;
-import org.kamol.nefete.ui.misc.BetterViewAnimator;
-
-import java.util.List;
-
-import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import rx.Subscription;
+
+import org.kamol.nefete.NefeteApp;
+import org.kamol.nefete.R;
+import org.kamol.nefete.data.MyAdsDatabase;
+import org.kamol.nefete.data.api.model.Image;
+import org.kamol.nefete.data.rx.EndlessObserver;
+import org.kamol.nefete.ui.misc.BetterViewAnimator;
 
 public class MyAdsView extends BetterViewAnimator {
   @InjectView(R.id.gallery_grid) AbsListView galleryView;
