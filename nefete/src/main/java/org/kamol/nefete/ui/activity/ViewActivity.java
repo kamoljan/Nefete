@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -13,27 +15,37 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+
 import org.kamol.nefete.R;
 import org.kamol.nefete.data.api.model.Ad;
 import org.kamol.nefete.http.GoRestClient;
 
+import static android.widget.Toast.LENGTH_SHORT;
+
 public class ViewActivity extends Activity {
   private static final String TAG = "ViewActivity";
-  private ImageView ivImage1 = null;
-  private TextView tvTitle = null;
-  private TextView tvDescription = null;
+
+  @InjectView(R.id.b_message) Button btnMessage;
+  @InjectView(R.id.iv_image1) ImageView ivImage1;
+  @InjectView(R.id.tv_title) TextView tvTitle;
+  @InjectView(R.id.tv_description) TextView tvDescription;
+
+  @OnClick(R.id.b_message) public void onClickBtnMessage() {
+    Toast.makeText(this, "Hello, views!", LENGTH_SHORT).show();
+  }
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_view);
-    ivImage1 = (ImageView) findViewById(R.id.iv_image1);
-    tvTitle = (TextView) findViewById(R.id.tv_title);
-    tvDescription = (TextView) findViewById(R.id.tv_description);
+    ButterKnife.inject(this);
   }
 
   @Override public void onResume() {
     super.onResume();
-
     Bundle bundle = this.getIntent().getExtras();
     if (bundle != null) {
       String adId = bundle.getString("adId");
