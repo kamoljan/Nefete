@@ -7,12 +7,22 @@ import java.util.Arrays;
 import java.util.List;
 
 import dagger.ObjectGraph;
+import timber.log.Timber;
+
+import static timber.log.Timber.DebugTree;
 
 public class NefeteApp extends Application {
   private ObjectGraph applicationGraph;
 
   @Override public void onCreate() {
     super.onCreate();
+
+    if (BuildConfig.DEBUG) {
+      Timber.plant(new DebugTree());
+    } else {
+      // TODO Crashlytics.start(this);
+      // TODO Timber.plant(new CrashlyticsTree());
+    }
 
     applicationGraph = ObjectGraph.create(getModules().toArray());
   }
@@ -29,7 +39,6 @@ public class NefeteApp extends Application {
   ObjectGraph getApplicationGraph() {
     return applicationGraph;
   }
-
 
   //TODO: Added from U2020, is it correct?
   public void inject(Object o) {

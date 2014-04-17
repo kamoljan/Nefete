@@ -44,13 +44,18 @@ dependencies {
     //TODO: remove it - insert ad
     compile 'com.loopj.android:android-async-http:1.4.4'
     compile project(':libraries:image-chooser-library')
-    //compile files('../libs/gson-2.2.4.jar')
+
+    compile 'com.jakewharton.timber:timber:2.2.2'
+
+    //PUBNUB
+    compile files('libs/bcprov-jdk15on-1.47.jar')
+    compile files('libs/Pubnub-Android-3.6.0.jar')
 }
 
 // Manifest version information!
 def versionMajor = 1
 def versionMinor = 1
-def versionPatch = 0
+def versionPatch = 1
 def versionBuild = 0 // bump for dogfood builds, public betas, etc.
 
 android {
