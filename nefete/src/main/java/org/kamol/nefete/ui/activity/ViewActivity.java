@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.Request;
 import com.facebook.Response;
@@ -16,11 +15,12 @@ import com.facebook.Session;
 import com.facebook.model.GraphUser;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import butterknife.ButterKnife;
@@ -40,15 +40,14 @@ import org.kamol.nefete.data.chat.Message;
 import org.kamol.nefete.ui.adapter.ChatAdapter;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-
-import static android.widget.Toast.LENGTH_SHORT;
 
 public class ViewActivity extends ListActivity {
   private static final String TAG = "ViewActivity";
   private static String adId;
   private static String channel;
   private static String profile;
+  private Gson gson = new Gson();
+  // TODO: move to config
   Pubnub pubnub = new Pubnub("pub-c-9935d7db-1e0f-4d08-be4a-4bf95690cce1",
       "sub-c-df2e4f1a-2cb8-11e3-849c-02ee2ddab7fe", "", false);
   @InjectView(R.id.b_message) Button btnMessage;
@@ -203,60 +202,53 @@ public class ViewActivity extends ListActivity {
     });
   }
 
-  private void notifyUser(Object message) {
+  class Tp {
+    String t;
+    String p;
+  }
+
+  private void notifyUser(final Object message) {
     try {
       if (message instanceof JSONObject) {
-        final JSONObject obj = (JSONObject) message;
         this.runOnUiThread(new Runnable() {
           public void run() {
-            // {"t":"Nice! It is from the Server side!!", "p": 61859293653476}
-            try {
-              addNewMessage(new Message(obj.get("t").toString(), obj.get("p").equals(profile)));
-            } catch (JSONException e) {
-              e.printStackTrace();
-              Timber.e(e, "something wrong with t/p");
-            }
-
-            //Toast.makeText(getApplicationContext(), obj.toString(), Toast.LENGTH_LONG).show();
-            Timber.d("Received msg : ", String.valueOf(obj));
+            /*
+             * PubNub Sent by Server
+             * {
+             *   "t":"Nice! It is from the Server side!!",
+             *   "p": 61859293653476
+             * }
+             */
+            Tp tp = gson.fromJson(message.toString(), Tp.class);
+            addNewMessage(new Message(tp.t, tp.p.equals(profile)));
           }
         });
       } else if (message instanceof String) {
-        final String obj = (String) message;
         this.runOnUiThread(new Runnable() {
           public void run() {
-            //Toast.makeText(getApplicationContext(), obj, Toast.LENGTH_LONG).show();
-            Timber.d("Received msg2 : ", obj.toString());
+            Timber.d("Received msg2 : ", message);
           }
         });
       } else if (message instanceof JSONArray) {
-        final JSONArray obj = (JSONArray) message;
         this.runOnUiThread(new Runnable() {
           public void run() {
-            Timber.d(obj.toString());
-
-            // History comes here
-            // TODO make it nicer looks ugly
             /*
-             * [[{"t":"nice","p":"618592936"},{"t":"nice again!","p":"618592936"}],13977296640773020,13977297917738134]
+             * PubNub History
+             * [
+             *   [
+             *     {"t":"nice","p":"618592936"},
+             *     {"t":"nice again!","p":"618592936"}
+             *   ],
+             *   13977296640773020,  // just log
+             *   13977297917738134   // just log
+             * ]
              */
-            JSONArray item = null;
-            try {
-              item = obj.getJSONArray(0);
-            } catch (JSONException e) {
-              e.printStackTrace();
+            JsonParser parser = new JsonParser();
+            JsonArray array = parser.parse(message.toString()).getAsJsonArray();
+            Tp[] tps = gson.fromJson(array.get(0), Tp[].class);
+            for (Tp tp : tps) {
+              addNewMessage(new Message(tp.t, tp.p.equals(profile)));
             }
-            JSONObject it;
-            for (int i = 0; i < item.length(); i++) {
-              try {
-                it = item.getJSONObject(i);
-                addNewMessage(new Message(it.getString("t"),
-                    it.getString("p").equals(profile)));
-              } catch (JSONException e) {
-                e.printStackTrace();
-              }
-            }
-
           }
         });
       }
