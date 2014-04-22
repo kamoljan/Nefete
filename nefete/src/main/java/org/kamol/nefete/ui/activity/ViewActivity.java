@@ -46,6 +46,7 @@ public class ViewActivity extends ListActivity {
   private static String adId;
   private static String channel;
   private static String profile;
+  private static String message;
   private Gson gson = new Gson();
   // TODO: move to config
   Pubnub pubnub = new Pubnub("pub-c-9935d7db-1e0f-4d08-be4a-4bf95690cce1",
@@ -59,8 +60,14 @@ public class ViewActivity extends ListActivity {
   ChatAdapter adapter;
 
   @OnClick(R.id.b_message)
-
   public void onClickBtnMessage() {
+    if (etMessage.getText() == null) {
+      return; // do nothing if no message
+    } else {
+      message = etMessage.getText().toString();
+      etMessage.setText(null); // clear text after user pressed send button
+    }
+
     final Session session = Session.getActiveSession();
     if (session != null && session.isOpened()) {
       // If the session is open, make an API call to get user data
@@ -277,7 +284,6 @@ public class ViewActivity extends ListActivity {
         }
 
         @Override public void successCallback(String channel, Object message) {
-          //notifyUser("SUBSCRIBE:"+channel+":"+message.getClass()+":"+message.toString());
           notifyUser(message);
         }
 
@@ -301,33 +307,33 @@ public class ViewActivity extends ListActivity {
       }
     };
 
-    String message = String.format("{t:\"%s\", p:\"%s\"}", etMessage.getText(), profile);
+    String msg = String.format("{t:\"%s\", p:\"%s\"}", message, profile);
 
     try {
-      Integer i = Integer.parseInt(message);
+      Integer i = Integer.parseInt(msg);
       pubnub.publish(channel, i, publishCallback);
       return;
     } catch (Exception e) {}
 
     try {
-      Double d = Double.parseDouble(message);
+      Double d = Double.parseDouble(msg);
       pubnub.publish(channel, d, publishCallback);
       return;
     } catch (Exception e) {}
 
 
     try {
-      JSONArray js = new JSONArray(message);
+      JSONArray js = new JSONArray(msg);
       pubnub.publish(channel, js, publishCallback);
       return;
     } catch (Exception e) {}
 
     try {
-      JSONObject js = new JSONObject(message);
+      JSONObject js = new JSONObject(msg);
       pubnub.publish(channel, js, publishCallback);
       return;
     } catch (Exception e) {}
 
-    pubnub.publish(channel, message, publishCallback);
+    pubnub.publish(channel, msg, publishCallback);
   }
 }
