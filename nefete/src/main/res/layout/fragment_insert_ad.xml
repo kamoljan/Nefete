@@ -51,49 +51,53 @@
       android:maxLines="2"
       />
 
-  <Spinner
-      android:id="@+id/sp_currency"
+<LinearLayout
+      android:weightSum="100"
       android:layout_row="4"
-      android:layout_columnSpan="1"
-      android:layout_column="0"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_columnSpan="2"
       android:layout_gravity="top"
-      android:entries="@array/currency_array"
-      />
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal">
 
   <EditText
       android:id="@+id/et_price"
-      android:layout_row="4"
-      android:layout_columnSpan="1"
-      android:layout_column="1"
-      android:layout_width="wrap_content"
+      android:layout_weight="40"
+      android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       android:layout_gravity="top"
       android:hint="Price"
       android:inputType="number"
 
       />
+  <Spinner
+      android:id="@+id/sp_currency"
+      android:layout_weight="40"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="top"
+      android:entries="@array/currency_array"
+      />
 
   <Spinner
       android:id="@+id/sp_category"
+      android:layout_weight="20"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="top"
+      android:entries="@array/category_array"
+      />
+</LinearLayout>
+
+  <Button
+      android:id="@+id/btn_post"
       android:layout_row="5"
       android:layout_columnSpan="2"
       android:layout_column="0"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_gravity="top"
-      android:entries="@array/category_array"
-      />
-
-  <Button
-      android:id="@+id/btn_post"
-      android:layout_row="6"
-      android:layout_columnSpan="2"
-      android:layout_column="0"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
       android:layout_gravity="bottom"
+      android:background="@color/nefeteColor"
       android:drawableBottom="@android:drawable/ic_menu_save"
       />
 </GridLayout>
