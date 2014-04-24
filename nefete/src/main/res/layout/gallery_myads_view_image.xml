@@ -7,6 +7,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/gallery_item_background"
     >
+    
   <org.kamol.nefete.ui.misc.ForegroundImageView
       android:id="@+id/gallery_image_image"
       android:layout_width="match_parent"

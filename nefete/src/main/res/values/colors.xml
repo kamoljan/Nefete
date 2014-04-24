@@ -2,8 +2,9 @@
 <resources>
 
 	<color name="textColor">#FFF</color>
-	<color name="textFieldColor">#000</color>
+	<color name="textFieldColor">#000000</color>
 	<color name="textShadow">#FFF</color>
+    <color name="white">#FFF</color>
 	<color name="listViewBg">#EEDADFEE</color>
 
 	<color name="sendLightColor">#8897BF</color>
@@ -16,5 +17,7 @@
 
     <color name="nefeteColor">#EEfe3768</color>
     <color name="nefeteColorActive">#aafe3768</color>
+    <color name="nefetePink">#fe3768</color>
+
 
 </resources>
