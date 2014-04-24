@@ -8,13 +8,10 @@
         android:id="@+id/message_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="5sp"
+        android:layout_margin="5dp"
         android:background="@drawable/speech_bubble_green"
-        android:shadowColor="@color/textShadow"
-        android:shadowDx="1"
-        android:shadowDy="1"
         android:text="Medium Text"
-        android:textColor="@color/textColor"
+        android:textColor="@color/textFieldColor"
         android:textSize="13sp" />
 
 </LinearLayout>
