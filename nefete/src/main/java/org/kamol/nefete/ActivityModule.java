@@ -11,6 +11,7 @@ import dagger.Provides;
 
 import org.kamol.nefete.event.ActivityResultEvent;
 import org.kamol.nefete.ui.activity.MainActivity;
+import org.kamol.nefete.ui.activity.ViewActivity;
 import org.kamol.nefete.ui.fragment.InsertAdContainerFragment;
 import org.kamol.nefete.ui.fragment.InsertAdFragment;
 import org.kamol.nefete.ui.fragment.ListingFragment;
@@ -30,7 +31,6 @@ import org.kamol.nefete.ui.fragment.ProfileFragment;
         InsertAdFragment.class,
         InsertAdContainerFragment.class,
         ActivityResultEvent.class,
-
         ProfileFragment.class
     },
     addsTo = AndroidModule.class,

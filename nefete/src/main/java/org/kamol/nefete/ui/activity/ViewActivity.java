@@ -31,9 +31,12 @@ import com.pubnub.api.Callback;
 import com.pubnub.api.Pubnub;
 import com.pubnub.api.PubnubError;
 
+import retrofit.RetrofitError;
 import timber.log.Timber;
 
+import org.kamol.nefete.NefeteApp;
 import org.kamol.nefete.R;
+import org.kamol.nefete.data.api.ChatService;
 import org.kamol.nefete.data.api.model.Ad;
 import org.kamol.nefete.http.GoRestClient;
 import org.kamol.nefete.data.chat.Message;
@@ -41,13 +44,15 @@ import org.kamol.nefete.ui.adapter.ChatAdapter;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 public class ViewActivity extends ListActivity {
   private static final String TAG = "ViewActivity";
   private static String adId;
   private static String channel;
   private static String profile;
   private static String message;
-  private Gson gson = new Gson();
+  @Inject ChatService chatService;
   // TODO: move to config
   Pubnub pubnub = new Pubnub("pub-c-9935d7db-1e0f-4d08-be4a-4bf95690cce1",
       "sub-c-df2e4f1a-2cb8-11e3-849c-02ee2ddab7fe", "", false);
@@ -58,6 +63,7 @@ public class ViewActivity extends ListActivity {
   @InjectView(R.id.tv_description) TextView tvDescription;
   ArrayList<Message> messages;
   ChatAdapter adapter;
+  private Gson gson = new Gson();
 
   @OnClick(R.id.b_message)
   public void onClickBtnMessage() {
@@ -95,6 +101,8 @@ public class ViewActivity extends ListActivity {
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    ((NefeteApp) getApplication()).inject(this);
+
     setContentView(R.layout.activity_view);
     ButterKnife.inject(this);
 
@@ -157,21 +165,6 @@ public class ViewActivity extends ListActivity {
     }
   }
 
-  public class AdResult {
-    private String status;
-    private Ad data;
-    private String message;
-
-    public AdResult(String s, Ad r) {
-      this.status = s;
-      this.data = r;
-    }
-
-    public Ad getData() {
-      return data;
-    }
-  }
-
   /*
   GET: http://localhost:8080/ad/5322ee3d2f6ee98d1df6831c
   {
@@ -207,11 +200,6 @@ public class ViewActivity extends ListActivity {
         }
       }
     });
-  }
-
-  class Tp {
-    String t;
-    String p;
   }
 
   private void notifyUser(final Object message) {
@@ -297,9 +285,15 @@ public class ViewActivity extends ListActivity {
   }
 
   private void publishMessage(final String channel) {
+
     Callback publishCallback = new Callback() {
       @Override public void successCallback(String channel, Object message) {
         notifyUser("PUBLISH : " + message);
+        chatService.putChat(adId, profile, new retrofit.Callback() {
+          @Override public void success(Object o, retrofit.client.Response response) {}
+
+          @Override public void failure(RetrofitError error) {}
+        });
       }
 
       @Override public void errorCallback(String channel, PubnubError error) {
@@ -335,5 +329,25 @@ public class ViewActivity extends ListActivity {
     } catch (Exception e) {}
 
     pubnub.publish(channel, msg, publishCallback);
+  }
+
+  public class AdResult {
+    private String status;
+    private Ad data;
+    private String message;
+
+    public AdResult(String s, Ad r) {
+      this.status = s;
+      this.data = r;
+    }
+
+    public Ad getData() {
+      return data;
+    }
+  }
+
+  class Tp {
+    String t;
+    String p;
   }
 }

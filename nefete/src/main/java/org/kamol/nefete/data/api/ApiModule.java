@@ -4,6 +4,8 @@ import javax.inject.Singleton;
 
 import com.squareup.okhttp.OkHttpClient;
 
+import org.kamol.nefete.ui.activity.ViewActivity;
+
 import dagger.Module;
 import dagger.Provides;
 import retrofit.Endpoint;
@@ -13,6 +15,7 @@ import retrofit.client.Client;
 import retrofit.client.OkClient;
 
 @Module(
+    injects = ViewActivity.class,
     complete = false,
     library = true
 )
@@ -42,5 +45,9 @@ public final class ApiModule {
 
   @Provides @Singleton MyAdsService provideMyAdsService(RestAdapter restAdapter) {
     return restAdapter.create(MyAdsService.class);
+  }
+
+  @Provides @Singleton ChatService provideAdChatService(RestAdapter restAdapter) {
+    return restAdapter.create(ChatService.class);
   }
 }
