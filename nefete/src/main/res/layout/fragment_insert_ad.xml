@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:useDefaultMargins="true"
     android:alignmentMode="alignBounds"
     android:columnOrderPreserved="false"
     android:columnCount="4"
@@ -84,6 +83,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
+        style="?android:attr/spinnerStyle"
         android:entries="@array/category_array"
         />
 
@@ -96,6 +96,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@color/nefetePink"
-        android:drawableBottom="@android:drawable/ic_menu_save"
+        android:drawableTop="@drawable/ic_action_accept"
+        android:paddingTop="5dp"
+        android:maxHeight="42dp"
         />
 </GridLayout>
