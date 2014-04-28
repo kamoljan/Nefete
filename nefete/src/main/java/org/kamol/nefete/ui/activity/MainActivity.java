@@ -49,6 +49,8 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener 
     // Specify that we will be displaying tabs in the action bar.
     actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
+    actionBar.setDisplayShowTitleEnabled(false);
+    actionBar.setDisplayShowHomeEnabled(false);
     // Set up the ViewPager, attaching the adapter and setting up a listener for when the
     // user swipes between sections.
     mViewPager = (ViewPager) findViewById(R.id.pager);

@@ -72,6 +72,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
+        style="?android:attr/spinnerStyle"
         android:entries="@array/currency_array"
         />
 

@@ -24,7 +24,7 @@
     <style name="MyActionBar"
         parent="@style/Widget.AppCompat.ActionBar">
         <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
-        <item name="android:background">@color/listViewBg</item>
+        <item name="android:background">@color/nefeteColor</item>
 
         <!-- Support library compatibility -->
         <item name="titleTextStyle">@style/MyActionBarTitleText</item>

@@ -58,6 +58,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:drawableLeft="@drawable/ic_action_send"
+            android:maxHeight="42dp"
             android:background="@null"/>
         <EditText
             android:id="@+id/et_message"
