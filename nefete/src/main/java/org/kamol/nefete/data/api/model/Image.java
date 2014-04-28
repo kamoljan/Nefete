@@ -8,9 +8,10 @@ public final class Image {
   public final int height;
   public final String currency;
   public final String price;
+  public final String[] chat;
 
   public Image(String id, String link, String title, int width, int height, String currency,
-               String price) {
+               String price, String[] chat) {
     this.id = id;
     this.link = link;
     this.title = title;
@@ -18,5 +19,6 @@ public final class Image {
     this.height = height;
     this.currency = currency;
     this.price = price;
+    this.chat = chat;
   }
 }

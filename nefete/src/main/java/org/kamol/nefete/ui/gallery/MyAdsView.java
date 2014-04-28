@@ -30,13 +30,13 @@ public class MyAdsView extends BetterViewAnimator {
   @Inject Picasso picasso;
   @Inject MyAdsDatabase myAdsDatabase;
   private Subscription request;
-  private final ListingAdapter adapter;
+  private final MyAdsAdapter adapter;
 
   public MyAdsView(Context context, AttributeSet attrs) {
     super(context, attrs);
     NefeteApp.get(context).inject(this);
 
-    adapter = new ListingAdapter(context, picasso);
+    adapter = new MyAdsAdapter(context, picasso);
   }
 
   @Override protected void onFinishInflate() {

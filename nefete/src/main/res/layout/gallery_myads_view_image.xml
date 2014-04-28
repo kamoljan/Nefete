@@ -7,7 +7,6 @@
     android:layout_height="wrap_content"
     android:background="@drawable/gallery_item_background"
     >
-    
   <org.kamol.nefete.ui.misc.ForegroundImageView
       android:id="@+id/gallery_image_image"
       android:layout_width="match_parent"
@@ -28,5 +27,16 @@
       android:ellipsize="end"
       tools:text="This Is The Title"
       style="@style/Widget.Nefete.GalleryImage"
+      />
+  <!--<ImageView-->
+  <!--android:id="@+id/gallery_image_avatar"-->
+  <!--android:layout_width="wrap_content"-->
+  <!--android:layout_height="wrap_content"-->
+  <!--android:src="@drawable/ic_launcher"/>-->
+  <com.facebook.widget.ProfilePictureView
+      android:id="@+id/profilePicture"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:visibility="gone"
       />
 </org.kamol.nefete.ui.gallery.MyAdsItemView>

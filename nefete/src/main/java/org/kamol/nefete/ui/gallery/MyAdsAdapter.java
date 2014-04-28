@@ -16,7 +16,6 @@ import java.util.List;
 
 public class MyAdsAdapter extends BindableAdapter<Image> {
   private List<Image> images = Collections.emptyList();
-
   private final Picasso picasso;
 
   public MyAdsAdapter(Context context, Picasso picasso) {
@@ -42,10 +41,10 @@ public class MyAdsAdapter extends BindableAdapter<Image> {
   }
 
   @Override public View newView(LayoutInflater inflater, int position, ViewGroup container) {
-    return inflater.inflate(R.layout.gallery_listing_view_image, container, false);
+    return inflater.inflate(R.layout.gallery_myads_view_image, container, false);
   }
 
   @Override public void bindView(Image item, int position, View view) {
-    ((ListingItemView) view).bindTo(item, picasso);
+    ((MyAdsItemView) view).bindTo(item, picasso);
   }
 }
