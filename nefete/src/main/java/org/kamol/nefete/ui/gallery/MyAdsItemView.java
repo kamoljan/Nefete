@@ -7,7 +7,6 @@ import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.widget.ProfilePictureView;
 import com.squareup.picasso.Picasso;
@@ -25,12 +24,10 @@ import timber.log.Timber;
 public class MyAdsItemView extends FrameLayout {
   @InjectView(R.id.gallery_image_image) ImageView image;
   @InjectView(R.id.gallery_image_title) TextView title;
-//  @InjectView(R.id.gallery_image_avatar) ImageView avatar;
-  @InjectView(R.id.profilePicture) ProfilePictureView pictureView;
-
+  @InjectView(R.id.profilePicture) ProfilePictureView profilePictureView;
+  private String buyerProfile;
   private float aspectRatio = 1;
   private RequestCreator request;
-//  private RequestCreator requestAvator;
   private String adId;
 
   public MyAdsItemView(Context context, AttributeSet attrs) {
@@ -46,23 +43,18 @@ public class MyAdsItemView extends FrameLayout {
     request = picasso.load(item.link);
     aspectRatio = 1f * item.width / item.height;
     requestLayout();
+    adId = item.id;
     title.setText(item.title);
-
     if (item.chat != null) {
-//      requestAvator = picasso.load("http://graph.facebook.com/" + item.chat[0] + "/picture");
-      pictureView.setProfileId(item.chat[0]);
-      pictureView.setPresetSize(ProfilePictureView.SMALL);
-      pictureView.setVisibility(VISIBLE);
-//      requestAvator = picasso.load("http://graph.facebook.com/" + item.chat[0] +
-// "/picture?type=small");
+      buyerProfile = item.chat[0];
+      profilePictureView.setProfileId(buyerProfile);
+      profilePictureView.setPresetSize(ProfilePictureView.SMALL);
+      profilePictureView.setVisibility(VISIBLE);
     }
-
-    adId = item.id; // ad id used for
   }
 
   @OnClick(R.id.profilePicture) void onStartViewActivityWithChat() {
-//    Toast.makeText(getContext(), "hello from profile click", Toast.LENGTH_LONG);
-    Timber.d("hello from profile click");
+    startViewActivity(buyerProfile);
   }
 
   @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -81,20 +73,21 @@ public class MyAdsItemView extends FrameLayout {
       request.resize(width, height).centerCrop().into(image);
       request = null;
     }
-
-//    if (requestAvator != null) {
-//      requestAvator.into(avatar);
-//      requestAvator = null;
-//    }
   }
 
   @OnClick(R.id.gallery_image_image) void onStartViewActivity() {
-    // TODO: Inject it or move to somewhere
+    startViewActivity(null);
+  }
+
+  private void startViewActivity(String p) {
     Intent i = new Intent(getContext(), ViewActivity.class);
     Bundle b = new Bundle();
     b.putString("adId", adId);
+    b.putBoolean("isFromMyAds", true);
+    if (p != null) {
+      b.putString("buyerProfile", p);
+    }
     i.putExtras(b);
     getContext().startActivity(i);
   }
-
 }

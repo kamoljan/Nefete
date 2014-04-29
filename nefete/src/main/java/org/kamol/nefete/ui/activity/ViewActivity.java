@@ -4,9 +4,11 @@ import android.app.ListActivity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.Request;
@@ -50,8 +52,8 @@ public class ViewActivity extends ListActivity {
   private static final String TAG = "ViewActivity";
   private static String adId;
   private static String channel;
-  private static String profile;
   private static String message;
+  private static String facebookId;
   @Inject ChatService chatService;
   // TODO: move to config
   Pubnub pubnub = new Pubnub("pub-c-9935d7db-1e0f-4d08-be4a-4bf95690cce1",
@@ -61,42 +63,19 @@ public class ViewActivity extends ListActivity {
   @InjectView(R.id.iv_image1) ImageView ivImage1;
   @InjectView(R.id.tv_title) TextView tvTitle;
   @InjectView(R.id.tv_description) TextView tvDescription;
+  @InjectView(R.id.rl_write_bar) RelativeLayout rlWriteBar;
   ArrayList<Message> messages;
   ChatAdapter adapter;
   private Gson gson = new Gson();
 
-  @OnClick(R.id.b_message)
-  public void onClickBtnMessage() {
+  @OnClick(R.id.b_message) public void onClickBtnMessage() {
     if (etMessage.getText() == null) {
       return; // do nothing if no message
     } else {
       message = etMessage.getText().toString();
       etMessage.setText(null); // clear text after user pressed send button
     }
-
-    final Session session = Session.getActiveSession();
-    if (session != null && session.isOpened()) {
-      // If the session is open, make an API call to get user data
-      // and define a new callback to handle the response
-      Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
-        @Override public void onCompleted(GraphUser user, Response response) {
-          // If the response is successful
-          if (session == Session.getActiveSession()) {
-            if (user != null) {
-              if (channel == null) {
-                profile = user.getId();
-                channel = profile + adId;
-                subscribeChannel(channel);
-              }
-              publishMessage(channel);
-            }
-          }
-        }
-      });
-      Request.executeBatchAsync(request);
-    } else {
-      // TODO open FB login
-    }
+    createBuyerChannel(); // Login and subscribe the channel if you are not the the owner
   }
 
   @Override public void onCreate(Bundle savedInstanceState) {
@@ -106,37 +85,9 @@ public class ViewActivity extends ListActivity {
     setContentView(R.layout.activity_view);
     ButterKnife.inject(this);
 
-    final Session session = Session.getActiveSession();
-    if (session != null && session.isOpened()) {
-      // If the session is open, make an API call to get user data
-      // and define a new callback to handle the response
-      Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
-        @Override public void onCompleted(GraphUser user, Response response) {
-          // If the response is successful
-          if (session == Session.getActiveSession()) {
-            if (user != null) {
-              if (channel == null) {
-                profile = user.getId();
-                channel = profile + adId;
-                subscribeChannel(channel);
-                pubnub.history(channel, 2, new Callback() {
-                  @Override
-                  public void successCallback(String channel, Object message) {
-                    notifyUser(message);
-                  }
 
-                  @Override
-                  public void errorCallback(String channel, PubnubError error) {
-                    notifyUser("HISTORY : " + error);
-                  }
-                });
-              }
-            }
-          }
-        }
-      });
-      Request.executeBatchAsync(request);
-    }
+    checkFacebookLogin(); // Check Facebook Login so we can use facebookId for later requests
+
     messages = new ArrayList<Message>();
     adapter = new ChatAdapter(this, messages);
     setListAdapter(adapter);
@@ -162,6 +113,19 @@ public class ViewActivity extends ListActivity {
     if (bundle != null) {
       adId = bundle.getString("adId");
       getAd(adId);
+      Boolean isFromMyAds = bundle.getBoolean("isFromMyAds");
+      String buyerProfile = bundle.getString("buyerProfile");
+      if (isFromMyAds) { // my own ad  // TODO user still can send message to himself
+        if (buyerProfile != null) {
+          recallChannel(buyerProfile + adId, true);
+        } else {
+          rlWriteBar.setVisibility(View.GONE);
+        }
+      } else {
+        if (checkFacebookLogin() != null) {
+          recallChannel(facebookId + adId, true);
+        }
+      }
     }
   }
 
@@ -182,7 +146,7 @@ public class ViewActivity extends ListActivity {
 	  }
   }
   */
-  private void getAd(String adID) {
+  private void getAd(final String adID) {
     GoRestClient.get(":8080/ad/" + adID, new JsonHttpResponseHandler() {
       @Override public void onSuccess(JSONObject jsonObject) {
         Log.d(TAG, jsonObject.toString());
@@ -202,6 +166,72 @@ public class ViewActivity extends ListActivity {
     });
   }
 
+  private void recallChannel(final String c, final boolean withHistory) {
+    final Session session = Session.getActiveSession();
+    if (session != null && session.isOpened()) {
+      Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
+        @Override public void onCompleted(GraphUser user, Response response) {
+          if (session == Session.getActiveSession()) {
+            if (user != null) {
+              facebookId = user.getId();
+              subscribeChannel(c);
+              if (withHistory) {
+                pubnub.history(c, 2, new Callback() {
+                  @Override
+                  public void successCallback(String channel, Object message) {
+                    notifyUser(message);
+                  }
+
+                  @Override
+                  public void errorCallback(String channel, PubnubError error) {
+                    notifyUser("HISTORY : " + error);
+                  }
+                });
+              }
+            }
+          }
+        }
+      });
+      Request.executeBatchAsync(request);
+    }
+  }
+
+  private void createBuyerChannel() {
+    final Session session = Session.getActiveSession();
+    if (session != null && session.isOpened()) {
+      // If the session is open, make an API call to get user data
+      // and define a new callback to handle the response
+      Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
+        @Override public void onCompleted(GraphUser user, Response response) {
+          // If the response is successful
+          if (session == Session.getActiveSession()) {
+            if (user != null) {
+              facebookId = user.getId();
+              subscribeChannel(user.getId() + adId);
+              publishMessage(user.getId(), adId);
+            }
+          }
+        }
+      });
+      Request.executeBatchAsync(request);
+    }
+  }
+
+  private String checkFacebookLogin() {
+    final Session session = Session.getActiveSession();
+    if (session != null && session.isOpened()) {
+      Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
+        @Override public void onCompleted(GraphUser user, Response response) {
+          if (session == Session.getActiveSession()) {
+            facebookId = user.getId();
+          }
+        }
+      });
+      Request.executeBatchAsync(request);
+    }
+    return facebookId;
+  }
+
   private void notifyUser(final Object message) {
     try {
       if (message instanceof JSONObject) {
@@ -215,7 +245,7 @@ public class ViewActivity extends ListActivity {
              * }
              */
             Tp tp = gson.fromJson(message.toString(), Tp.class);
-            addNewMessage(new Message(tp.t, tp.p.equals(profile)));
+            addNewMessage(new Message(tp.t, tp.p.equals(facebookId)));
           }
         });
       } else if (message instanceof String) {
@@ -242,7 +272,7 @@ public class ViewActivity extends ListActivity {
             JsonArray array = parser.parse(message.toString()).getAsJsonArray();
             Tp[] tps = gson.fromJson(array.get(0), Tp[].class);
             for (Tp tp : tps) {
-              addNewMessage(new Message(tp.t, tp.p.equals(profile)));
+              addNewMessage(new Message(tp.t, tp.p.equals(facebookId)));
             }
           }
         });
@@ -284,12 +314,12 @@ public class ViewActivity extends ListActivity {
     }
   }
 
-  private void publishMessage(final String channel) {
-
+  private void publishMessage(final String profile, final String ad) {
+    channel = profile + ad;
     Callback publishCallback = new Callback() {
       @Override public void successCallback(String channel, Object message) {
         notifyUser("PUBLISH : " + message);
-        chatService.putChat(adId, profile, new retrofit.Callback() {
+        chatService.putChat(ad, profile, new retrofit.Callback() {
           @Override public void success(Object o, retrofit.client.Response response) {}
 
           @Override public void failure(RetrofitError error) {}

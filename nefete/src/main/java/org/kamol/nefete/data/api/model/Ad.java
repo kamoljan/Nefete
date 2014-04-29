@@ -14,6 +14,7 @@ package org.kamol.nefete.data.api.model;
  image3: = ""
 */
 public class Ad {
+  private String profile;
   private String title;
   private String description;
   private String currency;
@@ -85,6 +86,14 @@ public class Ad {
 
   public void setImage3(String image3) {
     this.image3 = image3;
+  }
+
+  public String getProfile() {
+    return profile;
+  }
+
+  public void setProfile(String profile) {
+    this.profile = profile;
   }
 }
 

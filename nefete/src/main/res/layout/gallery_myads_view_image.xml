@@ -28,11 +28,6 @@
       tools:text="This Is The Title"
       style="@style/Widget.Nefete.GalleryImage"
       />
-  <!--<ImageView-->
-  <!--android:id="@+id/gallery_image_avatar"-->
-  <!--android:layout_width="wrap_content"-->
-  <!--android:layout_height="wrap_content"-->
-  <!--android:src="@drawable/ic_launcher"/>-->
   <com.facebook.widget.ProfilePictureView
       android:id="@+id/profilePicture"
       android:layout_width="wrap_content"

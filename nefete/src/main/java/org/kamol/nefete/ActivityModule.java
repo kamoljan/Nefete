@@ -54,7 +54,4 @@ public class ActivityModule {
   @Provides @Singleton Bus provideBus() {
     return new Bus();
   }
-//  @Provides @Singleton Bus provideBus() {
-//    return BusProvider.getInstance();
-//  }
 }
