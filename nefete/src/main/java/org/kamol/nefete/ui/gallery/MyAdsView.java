@@ -77,7 +77,9 @@ public class MyAdsView extends BetterViewAnimator {
   }
 
   @Override protected void onDetachedFromWindow() {
-    request.unsubscribe();
+    if (request != null) {
+      request.unsubscribe();
+    }
     super.onDetachedFromWindow();
   }
 }

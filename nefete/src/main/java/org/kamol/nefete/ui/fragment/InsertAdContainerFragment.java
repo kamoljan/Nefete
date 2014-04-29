@@ -65,7 +65,6 @@ public class InsertAdContainerFragment extends BaseFragment {
 
   @Override public void onResume() {
     super.onResume();
-//    BusProvider.getInstance().register(this);
     bus.register(this);
 
     // For scenarios where the main activity is launched and user
@@ -83,7 +82,6 @@ public class InsertAdContainerFragment extends BaseFragment {
   @Override public void onPause() {
     super.onPause();
     uiHelper.onPause();
-//    BusProvider.getInstance().unregister(this);
     bus.unregister(this);
   }
 
@@ -129,12 +127,7 @@ public class InsertAdContainerFragment extends BaseFragment {
     mResultCode = resultCode;
     mData = data;
     bus.post(produceActivityResultEvent());
-//    BusProvider.getInstance().post(produceActivityResultEvent());
   }
-
-//  @Subscribe public void onActivityResultEvent() {
-//    this.onActivityResult(mRequestCode, mResultCode, mData);
-//  }
 
   @Produce public ActivityResultEvent produceActivityResultEvent() {
     return new ActivityResultEvent(mRequestCode, mResultCode, mData);
