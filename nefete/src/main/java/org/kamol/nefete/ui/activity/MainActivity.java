@@ -19,7 +19,6 @@ import org.kamol.nefete.ui.fragment.ProfileFragment;
 import javax.inject.Inject;
 
 public class MainActivity extends BaseActivity implements ActionBar.TabListener {
-  @Inject LocationManager locationManager;
   AppSectionsPagerAdapter mAppSectionsPagerAdapter;
   ViewPager mViewPager;
 
@@ -79,13 +78,28 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener 
     }
   }
 
+  protected int setPageIcon(int position, boolean active) {
+    switch (position) {
+      case 0:
+        return active ? R.drawable.ic_menu_search_active : R.drawable.ic_menu_search;
+      case 1:
+        return active ? R.drawable.ic_menu_camera_active : R.drawable.ic_menu_camera;
+      case 2:
+        return active ? R.drawable.ic_menu_myplaces_active : R.drawable.ic_menu_myplaces;
+    }
+    return 0;
+  }
+
   @Override
-  public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {}
+  public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    tab.setIcon(setPageIcon(tab.getPosition(), false));
+  }
 
   @Override
   public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     // When the given tab is selected, switch to the corresponding page in the ViewPager.
     mViewPager.setCurrentItem(tab.getPosition());
+    tab.setIcon(setPageIcon(tab.getPosition(), true));
   }
 
   @Override
