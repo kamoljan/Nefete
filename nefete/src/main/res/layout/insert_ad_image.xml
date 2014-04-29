@@ -8,6 +8,7 @@
       android:layout_width="fill_parent"
       android:layout_height="100dp"
       android:animateFirstView="false"
+      android:layout_marginTop="10dp"
       >
 
     <ImageView
@@ -15,7 +16,7 @@
         android:layout_width="fill_parent"
         android:layout_height="100dp"
         android:padding="2dp"
-        android:src="@android:drawable/ic_menu_camera"/>
+        android:src="@drawable/make_capture"/>
 
     <ProgressBar
         android:id="@+id/progress"
