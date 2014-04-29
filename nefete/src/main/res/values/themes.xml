@@ -8,6 +8,7 @@
         <item name="android:actionBarTabTextStyle">@style/MyActionBarTabText</item>
         <item name="android:actionMenuTextColor">@color/textColor</item>
         <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:actionBarDivider">@null</item>
 
         <item name="android:actionBarTabStyle">@style/MyActionBarTabs</item>
 
@@ -16,6 +17,7 @@
         <item name="actionBarTabTextStyle">@style/MyActionBarTabText</item>
         <item name="actionMenuTextColor">@color/textColor</item>
         <item name="windowActionBarOverlay">true</item>
+        <item name="actionBarDivider">@null</item>
 
         <item name="actionBarTabStyle">@style/MyActionBarTabs</item>
     </style>
