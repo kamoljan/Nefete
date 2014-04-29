@@ -121,11 +121,11 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener 
     public int getPageIcon(int position) {
       switch (position) {
         case 0:
-          return android.R.drawable.ic_menu_search;
+          return R.drawable.ic_menu_search;
         case 1:
-          return android.R.drawable.ic_menu_camera;
+          return R.drawable.ic_menu_camera;
         case 2:
-          return android.R.drawable.ic_menu_myplaces;
+          return R.drawable.ic_menu_myplaces;
       }
       return 0;
     }
