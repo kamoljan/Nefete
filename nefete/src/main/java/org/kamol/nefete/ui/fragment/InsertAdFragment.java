@@ -36,7 +36,6 @@ import org.json.JSONObject;
 import org.kamol.nefete.BaseFragment;
 import org.kamol.nefete.R;
 import org.kamol.nefete.ui.adapter.InsertAdImageAdapter;
-//import org.kamol.nefete.bus.BusProvider;
 import org.kamol.nefete.data.api.model.Ad;
 import org.kamol.nefete.event.ActivityResultEvent;
 import org.kamol.nefete.http.GoRestClient;
@@ -181,7 +180,6 @@ public class InsertAdFragment extends BaseFragment implements ImageChooserDialog
         Gson gson = new GsonBuilder().create();
         Message message = gson.fromJson(jsonObject.toString(), Message.class);
         if (message.status.equals("OK")) {
-          // TODO: getActivity() can be NullPointerException
           Toast.makeText(getActivity(), "Uploaded successfully", Toast.LENGTH_SHORT).show();
           switch (insertAdImageAdapter.getRealCount()) {
             case 0:
@@ -226,12 +224,10 @@ public class InsertAdFragment extends BaseFragment implements ImageChooserDialog
   @Override public void onResume() {
     super.onResume();
     bus.register(this);
-//    BusProvider.getInstance().register(this);
   }
 
   @Override public void onPause() {
     super.onPause();
-//    BusProvider.getInstance().unregister(this);
     bus.unregister(this);
   }
 

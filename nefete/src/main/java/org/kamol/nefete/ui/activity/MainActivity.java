@@ -2,7 +2,6 @@ package org.kamol.nefete.ui.activity;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,8 +14,6 @@ import org.kamol.nefete.ui.fragment.InsertAdContainerFragment;
 import org.kamol.nefete.ui.fragment.ListingFragment;
 import org.kamol.nefete.ui.fragment.MainFragment;
 import org.kamol.nefete.ui.fragment.ProfileFragment;
-
-import javax.inject.Inject;
 
 public class MainActivity extends BaseActivity implements ActionBar.TabListener {
   AppSectionsPagerAdapter mAppSectionsPagerAdapter;
