@@ -85,7 +85,6 @@ public class ViewActivity extends ListActivity {
     setContentView(R.layout.activity_view);
     ButterKnife.inject(this);
 
-
     checkFacebookLogin(); // Check Facebook Login so we can use facebookId for later requests
 
     messages = new ArrayList<Message>();
@@ -101,6 +100,7 @@ public class ViewActivity extends ListActivity {
 
   @Override public void onDestroy() {
     super.onDestroy();
+    
     if (channel != null) {
       pubnub.unsubscribe(channel);
       channel = null;
