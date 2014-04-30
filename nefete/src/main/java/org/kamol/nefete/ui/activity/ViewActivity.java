@@ -54,6 +54,8 @@ public class ViewActivity extends ListActivity {
   private static String channel;
   private static String message;
   private static String facebookId;
+  private static Boolean isFromMyAds;
+  private static String buyerProfile;
   @Inject ChatService chatService;
   // TODO: move to config
   Pubnub pubnub = new Pubnub("pub-c-9935d7db-1e0f-4d08-be4a-4bf95690cce1",
@@ -100,7 +102,7 @@ public class ViewActivity extends ListActivity {
 
   @Override public void onDestroy() {
     super.onDestroy();
-    
+
     if (channel != null) {
       pubnub.unsubscribe(channel);
       channel = null;
@@ -113,8 +115,8 @@ public class ViewActivity extends ListActivity {
     if (bundle != null) {
       adId = bundle.getString("adId");
       getAd(adId);
-      Boolean isFromMyAds = bundle.getBoolean("isFromMyAds");
-      String buyerProfile = bundle.getString("buyerProfile");
+      isFromMyAds = bundle.getBoolean("isFromMyAds");
+      buyerProfile = bundle.getString("buyerProfile");
       if (isFromMyAds) { // my own ad  // TODO user still can send message to himself
         if (buyerProfile != null) {
           recallChannel(buyerProfile + adId, true);
@@ -177,13 +179,11 @@ public class ViewActivity extends ListActivity {
               subscribeChannel(c);
               if (withHistory) {
                 pubnub.history(c, 2, new Callback() {
-                  @Override
-                  public void successCallback(String channel, Object message) {
+                  @Override public void successCallback(String channel, Object message) {
                     notifyUser(message);
                   }
 
-                  @Override
-                  public void errorCallback(String channel, PubnubError error) {
+                  @Override public void errorCallback(String channel, PubnubError error) {
                     notifyUser("HISTORY : " + error);
                   }
                 });
@@ -199,16 +199,14 @@ public class ViewActivity extends ListActivity {
   private void createBuyerChannel() {
     final Session session = Session.getActiveSession();
     if (session != null && session.isOpened()) {
-      // If the session is open, make an API call to get user data
-      // and define a new callback to handle the response
       Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
         @Override public void onCompleted(GraphUser user, Response response) {
-          // If the response is successful
           if (session == Session.getActiveSession()) {
             if (user != null) {
               facebookId = user.getId();
-              subscribeChannel(user.getId() + adId);
-              publishMessage(user.getId(), adId);
+              String c = buyerProfile != null ? buyerProfile + adId : facebookId + adId;
+              subscribeChannel(c);
+              publishMessage(c, facebookId, adId);
             }
           }
         }
@@ -314,11 +312,11 @@ public class ViewActivity extends ListActivity {
     }
   }
 
-  private void publishMessage(final String profile, final String ad) {
-    channel = profile + ad;
+  private void publishMessage(final String channel, final String profile, final String ad) {
     Callback publishCallback = new Callback() {
       @Override public void successCallback(String channel, Object message) {
         notifyUser("PUBLISH : " + message);
+        // TODO possible owner can send himself and api adds into ad.chat?
         chatService.putChat(ad, profile, new retrofit.Callback() {
           @Override public void success(Object o, retrofit.client.Response response) {}
 
