@@ -8,6 +8,7 @@
         <item name="android:actionBarTabTextStyle">@style/MyActionBarTabText</item>
         <item name="android:actionMenuTextColor">@color/textColor</item>
         <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:actionBarDivider">@null</item>
 
         <item name="android:actionBarTabStyle">@style/MyActionBarTabs</item>
 
@@ -16,6 +17,7 @@
         <item name="actionBarTabTextStyle">@style/MyActionBarTabText</item>
         <item name="actionMenuTextColor">@color/textColor</item>
         <item name="windowActionBarOverlay">true</item>
+        <item name="actionBarDivider">@null</item>
 
         <item name="actionBarTabStyle">@style/MyActionBarTabs</item>
     </style>
@@ -24,7 +26,7 @@
     <style name="MyActionBar"
         parent="@style/Widget.AppCompat.ActionBar">
         <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
-        <item name="android:background">@color/nefeteColor</item>
+        <item name="android:background">@color/nefeteColorActive</item>
 
         <!-- Support library compatibility -->
         <item name="titleTextStyle">@style/MyActionBarTitleText</item>
@@ -49,10 +51,10 @@
     <style name="MyActionBarTabs"
         parent="@style/Widget.AppCompat.ActionBar.TabView">
         <!-- tab indicator -->
-        <item name="android:background">@drawable/actionbar_tab_indicator</item>
+        <item name="android:background">@color/nefeteColorActive</item>
 
         <!-- Support library compatibility -->
-        <item name="background">@drawable/actionbar_tab_indicator</item>
+        <item name="background">@color/nefeteColorActive</item>
     </style>
 
 
