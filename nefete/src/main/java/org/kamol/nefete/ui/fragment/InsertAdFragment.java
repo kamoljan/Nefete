@@ -49,6 +49,10 @@ import java.io.InputStream;
 
 import javax.inject.Inject;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+
 public class InsertAdFragment extends BaseFragment implements ImageChooserDialogFragment
     .OnImageChooserDialogListener {
   static final String TAG = "InsertAdFragment";
@@ -58,14 +62,113 @@ public class InsertAdFragment extends BaseFragment implements ImageChooserDialog
   private static final int REQUEST_TAKE = 1888;
   private static final int REQUEST_BROWSE = 1999;
   private static final int THUMBNAIL_SIZE = 500;
-  private EditText etTitle;
-  private EditText etDescription;
-  private EditText etPrice;
+  @InjectView(R.id.et_title) EditText etTitle;
+  @InjectView(R.id.et_description) EditText etDescription;
+  @InjectView(R.id.et_price) EditText etPrice;
+  @InjectView(R.id.b_post) Button bPost;
   private static Ad mAd = new Ad();
   private static String mUserId;
 
-  @Override
-  public void onCloseDialog(int item) {
+  @Override public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    insertAdImageAdapter = new InsertAdImageAdapter(getActivity());
+    insertAdImageAdapter.setMaxCount(MAX_DEFAULT_IMAGES);
+  }
+
+  @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                     Bundle savedInstanceState) {
+    final View view = inflater.inflate(R.layout.fragment_insert_ad, container, false);
+    ButterKnife.inject(this, view);
+
+    if (view != null) {
+      setGvImagesContent(view);
+      setSpCurrencyContent(view);
+      setSpCategoryContent(view);
+    }
+    return view;
+  }
+
+  @Override public void onResume() {
+    super.onResume();
+    bus.register(this);
+  }
+
+  @Override public void onPause() {
+    super.onPause();
+    bus.unregister(this);
+  }
+
+  @OnClick(R.id.b_post) public void onClickButtonPost() {
+    boolean isOk = true;
+    if (etTitle.getText() != null && etTitle.getText().length() > 0) {
+      mAd.setTitle(etTitle.getText().toString());
+      etTitle.setError(null);
+    } else {
+      etTitle.setError("Tell people what you are selling!");
+      isOk = false;
+    }
+    if (etDescription.getText() != null && etDescription.getText().length() > 0) {
+      mAd.setDescription(etDescription.getText().toString());
+      etDescription.setError(null);
+    } else {
+      etDescription.setError("People might not buy your item if they don't understand what " +
+          "you're selling. Why not describe it?");
+      isOk = false;
+    }
+    if (etPrice.getText() != null && etPrice.getText().length() > 0) {
+      mAd.setPrice(etPrice.getText().toString());
+      etPrice.setError(null);
+    } else {
+      etPrice.setError("Tell people what your item's worth!");
+      isOk = false;
+    }
+    if (mAd.getImage1() == null) {
+      isOk = false;
+      Toast.makeText(getActivity(), "The pictures help you sell better, " +
+          "please upload them now!", Toast.LENGTH_SHORT).show();
+    }
+    if (!isOk) {
+      return;
+    }
+
+    final Session session = Session.getActiveSession();
+    if (session != null && session.isOpened()) {
+      Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
+        @Override public void onCompleted(GraphUser user, Response response) {
+          if (session == Session.getActiveSession()) {
+            if (user != null) {
+              mUserId = user.getId(); //user id, user.getName()
+              RequestParams p = new RequestParams();
+              p.put("profile", mUserId);
+              p.put("title", mAd.getTitle());
+              p.put("description", mAd.getDescription());
+              p.put("category", String.valueOf(mAd.getCategory()));
+              p.put("currency", String.valueOf(mAd.getCurrency()));
+              p.put("price", mAd.getPrice());
+              p.put("newborn1", mAd.getImage1());
+              p.put("newborn2", mAd.getImage2());
+              p.put("newborn3", mAd.getImage3());
+
+              GoRestClient.post(":8080/ad/", p, new JsonHttpResponseHandler() {
+                @Override public void onSuccess(JSONObject jsonObject) {
+                  Log.d(TAG, jsonObject.toString());
+                  Gson gson = new GsonBuilder().create();
+                  MessagePostAd mes = gson.fromJson(jsonObject.toString(), MessagePostAd.class);
+                  if (mes.status.equals("OK")) {
+                    Toast.makeText(getActivity(), "Hooray, " +
+                        "your ad has been posted successfully!", Toast.LENGTH_SHORT).show();
+                  }
+                }
+              });
+            }
+          }
+        }
+      });
+      Request.executeBatchAsync(request);
+    }
+  }
+
+  @Override public void onCloseDialog(int item) {
     if (item == 0) {
       Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
       File file = getTempImageFile();
@@ -219,115 +322,6 @@ public class InsertAdFragment extends BaseFragment implements ImageChooserDialog
   public class MessagePostAd {
     public String status;
     public String result;
-  }
-
-  @Override public void onResume() {
-    super.onResume();
-    bus.register(this);
-  }
-
-  @Override public void onPause() {
-    super.onPause();
-    bus.unregister(this);
-  }
-
-  @Override public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    insertAdImageAdapter = new InsertAdImageAdapter(getActivity());
-    insertAdImageAdapter.setMaxCount(MAX_DEFAULT_IMAGES);
-  }
-
-  @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                     Bundle savedInstanceState) {
-    final View view = inflater.inflate(R.layout.fragment_insert_ad, container, false);
-    if (view != null) {
-      setGvImagesContent(view);
-      etTitle = (EditText) view.findViewById(R.id.et_title);
-      etDescription = (EditText) view.findViewById(R.id.et_description);
-      etPrice = (EditText) view.findViewById(R.id.et_price);
-      setSpCurrencyContent(view);
-      setSpCategoryContent(view);
-      setBntContent(view);
-    }
-    return view;
-  }
-
-  private void setBntContent(View view) {
-    final Button btnPost = (Button) view.findViewById(R.id.btn_post);
-    btnPost.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        boolean isOk = true;
-        if (etTitle.getText() != null && etTitle.getText().length() > 0) {
-          mAd.setTitle(etTitle.getText().toString());
-          etTitle.setError(null);
-        } else {
-          etTitle.setError("Tell people what you are selling!");
-          isOk = false;
-        }
-        if (etDescription.getText() != null && etDescription.getText().length() > 0) {
-          mAd.setDescription(etDescription.getText().toString());
-          etDescription.setError(null);
-        } else {
-          etDescription.setError("People might not buy your item if they don't understand what " +
-              "you're selling. Why not describe it?");
-          isOk = false;
-        }
-        if (etPrice.getText() != null && etPrice.getText().length() > 0) {
-          mAd.setPrice(etPrice.getText().toString());
-          etPrice.setError(null);
-        } else {
-          etPrice.setError("Tell people what your item's worth!");
-          isOk = false;
-        }
-        if (mAd.getImage1() == null) {
-          isOk = false;
-          Toast.makeText(getActivity(), "The pictures help you sell better, " +
-              "please upload them now!", Toast.LENGTH_SHORT).show();
-        }
-        if (!isOk) {
-          return;
-        }
-
-        final Session session = Session.getActiveSession();
-        if (session != null && session.isOpened()) {
-          // If the session is open, make an API call to get user data
-          // and define a new callback to handle the response
-          Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
-            @Override public void onCompleted(GraphUser user, Response response) {
-              // If the response is successful
-              if (session == Session.getActiveSession()) {
-                if (user != null) {
-                  mUserId = user.getId(); //user id, user.getName()
-                  RequestParams p = new RequestParams();
-                  p.put("profile", mUserId);
-                  p.put("title", mAd.getTitle());
-                  p.put("description", mAd.getDescription());
-                  p.put("category", String.valueOf(mAd.getCategory()));
-                  p.put("currency", String.valueOf(mAd.getCurrency()));
-                  p.put("price", mAd.getPrice());
-                  p.put("newborn1", mAd.getImage1());
-                  p.put("newborn2", mAd.getImage2());
-                  p.put("newborn3", mAd.getImage3());
-
-                  GoRestClient.post(":8080/ad/", p, new JsonHttpResponseHandler() {
-                    @Override public void onSuccess(JSONObject jsonObject) {
-                      Log.d(TAG, jsonObject.toString());
-                      Gson gson = new GsonBuilder().create();
-                      MessagePostAd mes = gson.fromJson(jsonObject.toString(), MessagePostAd.class);
-                      if (mes.status.equals("OK")) {
-                        Toast.makeText(getActivity(), "Hooray, " +
-                            "your ad has been posted successfully!", Toast.LENGTH_SHORT).show();
-                      }
-                    }
-                  });
-                }
-              }
-            }
-          });
-          Request.executeBatchAsync(request);
-        }
-      }
-    });
   }
 
   private void setSpCurrencyContent(View view) {
