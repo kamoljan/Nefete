@@ -56,7 +56,4 @@
         <!-- Support library compatibility -->
         <item name="background">@color/nefeteColorActive</item>
     </style>
-
-
-
 </resources>
