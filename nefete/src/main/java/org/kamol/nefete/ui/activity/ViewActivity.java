@@ -67,7 +67,7 @@ public class ViewActivity extends ListActivity {
   @InjectView(R.id.tv_title) TextView tvTitle;
   @InjectView(R.id.tv_description) TextView tvDescription;
   @InjectView(R.id.rl_write_bar) RelativeLayout rlWriteBar;
-  @InjectView(R.id.ib_back) ImageButton btnBack;
+  @InjectView(R.id.ib_back) ImageButton ibBack;
   ArrayList<Message> messages;
   ChatAdapter adapter;
   private Gson gson = new Gson();
