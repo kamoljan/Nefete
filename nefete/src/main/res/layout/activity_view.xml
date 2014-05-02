@@ -19,7 +19,7 @@
       <RelativeLayout
           android:layout_height="wrap_content"
           android:layout_width="fill_parent"
-          android:background="@color/nefeteColorActive"
+          android:background="@color/nefeteColor"
           android:padding="5dp"
           android:layout_alignParentTop="true"
           >
