@@ -67,11 +67,11 @@ public class ViewActivity extends ListActivity {
   @InjectView(R.id.tv_title) TextView tvTitle;
   @InjectView(R.id.tv_description) TextView tvDescription;
   @InjectView(R.id.rl_write_bar) RelativeLayout rlWriteBar;
-  @InjectView(R.id.back) ImageButton VtnBack;
+  @InjectView(R.id.ib_back) ImageButton btnBack;
   ArrayList<Message> messages;
   ChatAdapter adapter;
   private Gson gson = new Gson();
- @OnClick(R.id.back) public  void onClickBtnBack(){
+ @OnClick(R.id.ib_back) public  void onClickBtnBack(){
      super.onBackPressed();
  }
   @OnClick(R.id.b_message) public void onClickBtnMessage() {
