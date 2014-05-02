@@ -25,7 +25,6 @@ public class InsertAdImageAdapter extends BaseAdapter {
   private static final int MAX_DEFAULT_IMAGES = 3;
   private List<String> imageIds = new ArrayList<String>(MAX_DEFAULT_IMAGES);
   private int maxCount = MAX_DEFAULT_IMAGES;
-  //  private ViewHolder holder;
   private final Context context;
   private ImageView ivImage;
   private ViewAnimator vaAnimator;
@@ -66,7 +65,6 @@ public class InsertAdImageAdapter extends BaseAdapter {
 
         target = new Target() {
           @Override public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            //holder.va_animator.setDisplayedChild(0); // show default or real image
             if (url.equals(ivImage.getTag())) {
               ivImage.setImageBitmap(bitmap);
             }
@@ -101,7 +99,6 @@ public class InsertAdImageAdapter extends BaseAdapter {
 
   @Override
   public boolean isEnabled(int position) {
-    //return true;
     return (position <= getRealCount());
   }
 

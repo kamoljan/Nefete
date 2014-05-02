@@ -2,7 +2,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="fill_parent"
              android:layout_height="wrap_content">
-
   <ViewAnimator
       android:id="@+id/va_animator"
       android:layout_width="fill_parent"
@@ -10,34 +9,24 @@
       android:animateFirstView="false"
       android:layout_marginTop="10dp"
       >
-
     <ImageView
         android:id="@+id/iv_thumb"
         android:layout_width="fill_parent"
         android:layout_height="100dp"
         android:padding="2dp"
         android:src="@drawable/make_capture"/>
-
     <ProgressBar
         android:id="@+id/progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         />
-
     <ImageView
         android:id="@+id/iv_empty"
         android:layout_width="fill_parent"
         android:layout_height="100dp"
         android:padding="2dp"
+        android:src="@drawable/dotted_rectangle"
         />
-
   </ViewAnimator>
 </FrameLayout>
-    <!--
-    <ImageView
-    android:id="@+id/iv_empty"
-    android:layout_width="fill_parent"
-    android:layout_height="100dp"
-    android:padding="2dp"
-    android:src="@drawable/dotted_rectangle"/>-->

@@ -66,6 +66,9 @@ public class InsertAdFragment extends BaseFragment implements ImageChooserDialog
   @InjectView(R.id.et_description) EditText etDescription;
   @InjectView(R.id.et_price) EditText etPrice;
   @InjectView(R.id.b_post) Button bPost;
+  @InjectView(R.id.gv_images) GridView gvImages;
+  @InjectView(R.id.sp_currency) Spinner spCurrency;
+  @InjectView(R.id.sp_category) Spinner spCategory;
   private static Ad mAd = new Ad();
   private static String mUserId;
 
@@ -81,9 +84,9 @@ public class InsertAdFragment extends BaseFragment implements ImageChooserDialog
     ButterKnife.inject(this, view);
 
     if (view != null) {
-      setGvImagesContent(view);
-      setSpCurrencyContent(view);
-      setSpCategoryContent(view);
+      setGvImagesContent();
+      setSpCurrencyContent();
+      setSpCategoryContent();
     }
     return view;
   }
@@ -324,8 +327,7 @@ public class InsertAdFragment extends BaseFragment implements ImageChooserDialog
     public String result;
   }
 
-  private void setSpCurrencyContent(View view) {
-    Spinner spCurrency = (Spinner) view.findViewById(R.id.sp_currency);
+  private void setSpCurrencyContent() {
     spCurrency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override public void onItemSelected(AdapterView<?> parent, View view, int position,
                                            long id) {
@@ -336,9 +338,8 @@ public class InsertAdFragment extends BaseFragment implements ImageChooserDialog
     });
   }
 
-  private void setGvImagesContent(View view) {
+  private void setGvImagesContent() {
     insertAdImageAdapter = new InsertAdImageAdapter(getActivity());
-    GridView gvImages = (GridView) view.findViewById(R.id.gv_images);
     gvImages.setColumnWidth(GridView.AUTO_FIT);
     gvImages.setAdapter(insertAdImageAdapter);
     gvImages.setOnTouchListener(new View.OnTouchListener() {
@@ -356,8 +357,7 @@ public class InsertAdFragment extends BaseFragment implements ImageChooserDialog
     });
   }
 
-  private void setSpCategoryContent(View view) {
-    Spinner spCategory = (Spinner) view.findViewById(R.id.sp_category);
+  private void setSpCategoryContent() {
     spCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override public void onItemSelected(AdapterView<?> parent, View view, int position,
                                            long id) {
