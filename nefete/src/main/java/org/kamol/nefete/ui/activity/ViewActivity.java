@@ -49,8 +49,7 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-public class ViewActivity extends ListActivity implements View.OnClickListener{
-  ImageButton bBack;
+public class ViewActivity extends ListActivity {
   private static final String TAG = "ViewActivity";
   private static String adId;
   private static String channel;
@@ -68,10 +67,13 @@ public class ViewActivity extends ListActivity implements View.OnClickListener{
   @InjectView(R.id.tv_title) TextView tvTitle;
   @InjectView(R.id.tv_description) TextView tvDescription;
   @InjectView(R.id.rl_write_bar) RelativeLayout rlWriteBar;
+  @InjectView(R.id.back) ImageButton VtnBack;
   ArrayList<Message> messages;
   ChatAdapter adapter;
   private Gson gson = new Gson();
-
+ @OnClick(R.id.back) public  void onClickBtnBack(){
+     super.onBackPressed();
+ }
   @OnClick(R.id.b_message) public void onClickBtnMessage() {
     if (etMessage.getText() == null) {
       return; // do nothing if no message
@@ -88,7 +90,7 @@ public class ViewActivity extends ListActivity implements View.OnClickListener{
 
     setContentView(R.layout.activity_view);
     ButterKnife.inject(this);
-    BackButton();
+
     checkFacebookLogin(); // Check Facebook Login so we can use facebookId for later requests
 
     messages = new ArrayList<Message>();
@@ -96,12 +98,7 @@ public class ViewActivity extends ListActivity implements View.OnClickListener{
     setListAdapter(adapter);
   }
 
-    private void BackButton() {
-      bBack=(ImageButton) findViewById(R.id.back);
-      bBack.setOnClickListener(this);
-    }
-
-    void addNewMessage(Message m) {
+  void addNewMessage(Message m) {
     messages.add(m);
     adapter.notifyDataSetChanged();
     getListView().setSelection(messages.size() - 1);
@@ -366,12 +363,7 @@ public class ViewActivity extends ListActivity implements View.OnClickListener{
     pubnub.publish(channel, msg, publishCallback);
   }
 
-    @Override
-    public void onClick(View view) {
-        super.onBackPressed();
-    }
-
-    public class AdResult {
+  public class AdResult {
     private String status;
     private Ad data;
     private String message;
