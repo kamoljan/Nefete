@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -48,7 +49,8 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-public class ViewActivity extends ListActivity {
+public class ViewActivity extends ListActivity implements View.OnClickListener{
+  ImageButton bBack;
   private static final String TAG = "ViewActivity";
   private static String adId;
   private static String channel;
@@ -86,7 +88,7 @@ public class ViewActivity extends ListActivity {
 
     setContentView(R.layout.activity_view);
     ButterKnife.inject(this);
-
+    BackButton();
     checkFacebookLogin(); // Check Facebook Login so we can use facebookId for later requests
 
     messages = new ArrayList<Message>();
@@ -94,7 +96,12 @@ public class ViewActivity extends ListActivity {
     setListAdapter(adapter);
   }
 
-  void addNewMessage(Message m) {
+    private void BackButton() {
+      bBack=(ImageButton) findViewById(R.id.back);
+      bBack.setOnClickListener(this);
+    }
+
+    void addNewMessage(Message m) {
     messages.add(m);
     adapter.notifyDataSetChanged();
     getListView().setSelection(messages.size() - 1);
@@ -359,7 +366,12 @@ public class ViewActivity extends ListActivity {
     pubnub.publish(channel, msg, publishCallback);
   }
 
-  public class AdResult {
+    @Override
+    public void onClick(View view) {
+        super.onBackPressed();
+    }
+
+    public class AdResult {
     private String status;
     private Ad data;
     private String message;
