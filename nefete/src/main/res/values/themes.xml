@@ -51,9 +51,9 @@
     <style name="MyActionBarTabs"
         parent="@style/Widget.AppCompat.ActionBar.TabView">
         <!-- tab indicator -->
-        <item name="android:background">@color/nefeteColorActive</item>
+        <item name="android:background">@color/nefeteColor</item>
 
         <!-- Support library compatibility -->
-        <item name="background">@color/nefeteColorActive</item>
+        <item name="background">@color/nefeteColor</item>
     </style>
 </resources>
