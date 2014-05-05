@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ViewAnimator;
 
@@ -21,14 +22,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 public class InsertAdImageAdapter extends BaseAdapter {
-  private static final int MAX_DEFAULT_IMAGES = 3;
+  private static final int MAX_DEFAULT_IMAGES = 1;
   private List<String> imageIds = new ArrayList<String>(MAX_DEFAULT_IMAGES);
   private int maxCount = MAX_DEFAULT_IMAGES;
   private final Context context;
-  private ImageView ivImage;
-  private ViewAnimator vaAnimator;
-  private ImageView ivEmpty;
+  @InjectView(R.id.iv_thumb) ImageView ivImage;
+  @InjectView(R.id.va_animator) ViewAnimator vaAnimator;
+  @InjectView(R.id.iv_empty) ImageView ivEmpty;
   private String url;
   private Target target;
 
@@ -49,20 +53,14 @@ public class InsertAdImageAdapter extends BaseAdapter {
   }
 
   @Override public View getView(final int position, View view, ViewGroup parent) {
-    View v;
+    View v = LayoutInflater.from(context).inflate(R.layout.insert_ad_image, parent, false);
+    ButterKnife.inject(this, v);
+
     int realCount = getRealCount();
     if (position <= realCount) {
-
-      v = LayoutInflater.from(context).inflate(R.layout.insert_ad_image, parent, false);
-      ivImage = (ImageView) v.findViewById(R.id.iv_thumb);
-      vaAnimator = (ViewAnimator) v.findViewById(R.id.va_animator);
-      ivEmpty = (ImageView) v.findViewById(R.id.iv_empty);
-
       if (position < realCount) {
-
         url = imageIds.get(position);
         ivImage.setTag(url);
-
         target = new Target() {
           @Override public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
             if (url.equals(ivImage.getTag())) {
@@ -78,7 +76,6 @@ public class InsertAdImageAdapter extends BaseAdapter {
             }
           }
         };
-
         if (url.equals(ivImage.getTag())) {
           Picasso.with(context)
               .load(url)
@@ -90,15 +87,13 @@ public class InsertAdImageAdapter extends BaseAdapter {
         }
       }
     } else {
-      v = LayoutInflater.from(context).inflate(R.layout.insert_ad_image, parent, false);
       vaAnimator = (ViewAnimator) v.findViewById(R.id.va_animator);
       vaAnimator.setDisplayedChild(2); // show empty box
     }
     return v;
   }
 
-  @Override
-  public boolean isEnabled(int position) {
+  @Override public boolean isEnabled(int position) {
     return (position <= getRealCount());
   }
 
@@ -125,7 +120,6 @@ public class InsertAdImageAdapter extends BaseAdapter {
 
   //@Override
   public int setErrors(JSONObject errors) {
-    // should never have errors
     return 0;
   }
 

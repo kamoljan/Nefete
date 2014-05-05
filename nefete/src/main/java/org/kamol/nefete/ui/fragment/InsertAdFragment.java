@@ -367,4 +367,9 @@ public class InsertAdFragment extends BaseFragment implements ImageChooserDialog
       @Override public void onNothingSelected(AdapterView<?> parent) {}
     });
   }
+
+  @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+  }
+
 }
