@@ -65,10 +65,13 @@ public class InsertAdImageAdapter extends BaseAdapter {
           @Override public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
             if (url.equals(ivImage.getTag())) {
               ivImage.setImageBitmap(bitmap);
+              vaAnimator.setDisplayedChild(0);
             }
           }
 
-          @Override public void onBitmapFailed(Drawable errorDrawable) {}
+          @Override public void onBitmapFailed(Drawable errorDrawable) {
+            ivImage.setImageResource(android.R.drawable.stat_notify_error);
+          }
 
           @Override public void onPrepareLoad(Drawable placeHolderDrawable) {
             if (url.equals(ivImage.getTag())) {
@@ -83,7 +86,7 @@ public class InsertAdImageAdapter extends BaseAdapter {
               .error(android.R.drawable.ic_input_delete)
               .resizeDimen(R.dimen.list_detail_image_size, R.dimen.list_detail_image_size)
               .centerInside()
-              .into(ivImage);
+              .into(target);
         }
       }
     } else {

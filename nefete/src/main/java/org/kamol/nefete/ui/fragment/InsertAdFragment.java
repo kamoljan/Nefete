@@ -52,6 +52,7 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 public class InsertAdFragment extends BaseFragment implements ImageChooserDialogFragment
     .OnImageChooserDialogListener {
@@ -151,7 +152,6 @@ public class InsertAdFragment extends BaseFragment implements ImageChooserDialog
               p.put("newborn1", mAd.getImage1());
               p.put("newborn2", mAd.getImage2());
               p.put("newborn3", mAd.getImage3());
-
               GoRestClient.post(":8080/ad/", p, new JsonHttpResponseHandler() {
                 @Override public void onSuccess(JSONObject jsonObject) {
                   Log.d(TAG, jsonObject.toString());
@@ -282,33 +282,22 @@ public class InsertAdFragment extends BaseFragment implements ImageChooserDialog
     params.put("picture[image]", new ByteArrayInputStream(data));
     GoRestClient.put(":9090", params, new JsonHttpResponseHandler() {
       @Override public void onSuccess(JSONObject jsonObject) {
-        Log.d(TAG, jsonObject.toString());
+        Timber.d(TAG, jsonObject.toString());
         Gson gson = new GsonBuilder().create();
         Message message = gson.fromJson(jsonObject.toString(), Message.class);
         if (message.status.equals("OK")) {
           Toast.makeText(getActivity(), "Uploaded successfully", Toast.LENGTH_SHORT).show();
-          switch (insertAdImageAdapter.getRealCount()) {
-            case 0:
-              mAd.setImage1(message.data.newborn);
-              insertAdImageAdapter.addItem(GoRestClient.getAbsoluteUrl(":9090/egg/" + mAd
-                  .getImage1()));
-              break;
-            case 1:
-              mAd.setImage2(message.data.newborn);
-              insertAdImageAdapter.addItem(GoRestClient.getAbsoluteUrl(":9090/egg/" + mAd
-                  .getImage2()));
-              break;
-            case 2:
-              mAd.setImage3(message.data.newborn);
-              insertAdImageAdapter.addItem(GoRestClient.getAbsoluteUrl(":9090/egg/" + mAd
-                  .getImage3()));
-              break;
+          int cnt = insertAdImageAdapter.getRealCount();
+          if (cnt == 0) {
+            mAd.setImage1(message.data.newborn);
+            insertAdImageAdapter.addItem(GoRestClient.getAbsoluteUrl(":9090/egg/" + mAd
+                .getImage1()));
           }
         }
       }
 
       @Override public void onFailure(Throwable throwable, JSONObject jsonObject) {
-        Log.d(TAG, jsonObject.toString());
+        Timber.d(TAG, jsonObject.toString());
       }
     });
   }
@@ -367,9 +356,4 @@ public class InsertAdFragment extends BaseFragment implements ImageChooserDialog
       @Override public void onNothingSelected(AdapterView<?> parent) {}
     });
   }
-
-  @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
-  }
-
 }

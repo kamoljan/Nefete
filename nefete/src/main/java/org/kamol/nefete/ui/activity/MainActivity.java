@@ -149,13 +149,12 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener 
     }
   }
 
-  @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
+  @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-
     mRequestCode = requestCode;
     mResultCode = resultCode;
     mData = data;
-    bus.post(produceActivityResultEvent());
+//    bus.post(produceActivityResultEvent()); // redundant
   }
 
   @Override public void onResume() {
