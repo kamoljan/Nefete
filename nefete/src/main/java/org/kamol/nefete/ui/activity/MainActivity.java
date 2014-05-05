@@ -2,22 +2,33 @@ package org.kamol.nefete.ui.activity;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import com.squareup.otto.Bus;
+import com.squareup.otto.Produce;
+
 import org.kamol.nefete.BaseActivity;
 import org.kamol.nefete.R;
+import org.kamol.nefete.event.ActivityResultEvent;
 import org.kamol.nefete.ui.fragment.InsertAdContainerFragment;
 import org.kamol.nefete.ui.fragment.ListingFragment;
 import org.kamol.nefete.ui.fragment.MainFragment;
 import org.kamol.nefete.ui.fragment.ProfileFragment;
 
+import javax.inject.Inject;
+
 public class MainActivity extends BaseActivity implements ActionBar.TabListener {
   AppSectionsPagerAdapter mAppSectionsPagerAdapter;
   ViewPager mViewPager;
+  @Inject Bus bus;
+  private int mRequestCode;
+  private int mResultCode;
+  private Intent mData;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -52,8 +63,7 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener 
     mViewPager = (ViewPager) findViewById(R.id.pager);
     mViewPager.setAdapter(mAppSectionsPagerAdapter);
     mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-      @Override
-      public void onPageSelected(int position) {
+      @Override public void onPageSelected(int position) {
         // When swiping between different app sections, select the corresponding tab.
         // We can also use ActionBar.Tab#select() to do this if we have a reference to the
         // Tab.
@@ -87,20 +97,19 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener 
     return 0;
   }
 
-  @Override
-  public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+  @Override public void onTabUnselected(ActionBar.Tab tab,
+                                        FragmentTransaction fragmentTransaction) {
     tab.setIcon(setPageIcon(tab.getPosition(), false));
   }
 
-  @Override
-  public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+  @Override public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     // When the given tab is selected, switch to the corresponding page in the ViewPager.
     mViewPager.setCurrentItem(tab.getPosition());
     tab.setIcon(setPageIcon(tab.getPosition(), true));
   }
 
-  @Override
-  public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {}
+  @Override public void onTabReselected(ActionBar.Tab tab,
+                                        FragmentTransaction fragmentTransaction) {}
 
   /**
    * A {@link android.support.v4.app.FragmentPagerAdapter} that returns a fragment corresponding
@@ -112,8 +121,7 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener 
       super(fm);
     }
 
-    @Override
-    public Fragment getItem(int position) {
+    @Override public Fragment getItem(int position) {
       switch (position) {
         case 0:
           return ListingFragment.newInstance();
@@ -124,8 +132,7 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener 
       }
     }
 
-    @Override
-    public int getCount() {
+    @Override public int getCount() {
       return 3;
     }
 
@@ -142,4 +149,26 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener 
     }
   }
 
+  @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+
+    mRequestCode = requestCode;
+    mResultCode = resultCode;
+    mData = data;
+    bus.post(produceActivityResultEvent());
+  }
+
+  @Override public void onResume() {
+    super.onResume();
+    bus.register(this);
+  }
+
+  @Override public void onPause() {
+    super.onPause();
+    bus.unregister(this);
+  }
+
+  @Produce public ActivityResultEvent produceActivityResultEvent() {
+    return new ActivityResultEvent(mRequestCode, mResultCode, mData);
+  }
 }

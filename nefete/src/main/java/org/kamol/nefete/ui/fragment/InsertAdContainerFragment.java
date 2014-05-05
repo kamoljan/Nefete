@@ -9,27 +9,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import javax.inject.Inject;
-
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
-import com.squareup.otto.Bus;
-import com.squareup.otto.Produce;
 
 import org.kamol.nefete.BaseFragment;
 import org.kamol.nefete.R;
-import org.kamol.nefete.event.ActivityResultEvent;
 
 public class InsertAdContainerFragment extends BaseFragment {
   static final String TAG = "InsertAdContainerFragment";
-  @Inject Bus bus;
   private UiLifecycleHelper uiHelper;
   private Fragment insertAdFragment;
   private Fragment splashFragment;
-  private int mRequestCode;
-  private int mResultCode;
-  private Intent mData;
 
   private void onSessionStateChange(Session session, SessionState state, Exception exception) {
     if (state.isOpened()) {
@@ -64,7 +55,6 @@ public class InsertAdContainerFragment extends BaseFragment {
 
   @Override public void onResume() {
     super.onResume();
-    bus.register(this);
 
     // For scenarios where the main activity is launched and user
     // session is not null, the session state change notification
@@ -81,7 +71,6 @@ public class InsertAdContainerFragment extends BaseFragment {
   @Override public void onPause() {
     super.onPause();
     uiHelper.onPause();
-    bus.unregister(this);
   }
 
   @Override public void onDestroy() {
@@ -121,15 +110,5 @@ public class InsertAdContainerFragment extends BaseFragment {
   @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     uiHelper.onActivityResult(requestCode, resultCode, data);
-
-    mRequestCode = requestCode;
-    mResultCode = resultCode;
-    mData = data;
-    bus.post(produceActivityResultEvent());
   }
-
-  @Produce public ActivityResultEvent produceActivityResultEvent() {
-    return new ActivityResultEvent(mRequestCode, mResultCode, mData);
-  }
-
 }

@@ -182,7 +182,7 @@ public class InsertAdFragment extends BaseFragment implements ImageChooserDialog
         if (!file.exists()) throw new IOException("createNewFile() failed.");
         Uri imageUri = Uri.fromFile(file);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-        startActivityForResult(intent, REQUEST_TAKE);
+        getActivity().startActivityForResult(intent, REQUEST_TAKE);
       } catch (IOException e) {
         Toast.makeText(getActivity(), "Picture Error", Toast.LENGTH_SHORT).show();
         Log.e(TAG, e.toString());
@@ -190,7 +190,7 @@ public class InsertAdFragment extends BaseFragment implements ImageChooserDialog
     } else {
       Intent intent = new Intent(Intent.ACTION_PICK);
       intent.setType("image/*");
-      startActivityForResult(intent, REQUEST_BROWSE);
+      getActivity().startActivityForResult(intent, REQUEST_BROWSE);
     }
   }
 
