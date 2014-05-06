@@ -8,9 +8,11 @@ import android.view.ViewGroup;
 import org.kamol.nefete.BaseFragment;
 import org.kamol.nefete.R;
 
-public class ProfileFragment extends BaseFragment {
-  public static ProfileFragment newInstance() {
-    return new ProfileFragment();
+public class MyAdsFragment extends BaseFragment {
+  static final String TAG = "MyAdsFragment";
+
+  public static MyAdsFragment newInstance() {
+    return new MyAdsFragment();
   }
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,

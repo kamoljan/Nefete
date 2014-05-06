@@ -158,4 +158,10 @@ public class InsertAdImageAdapter extends BaseAdapter {
     }
     notifyDataSetChanged();
   }
+
+  public void showProcessBar() {
+    if (getRealCount() == 1) {
+      vaAnimator.setDisplayedChild(1);
+    }
+  }
 }

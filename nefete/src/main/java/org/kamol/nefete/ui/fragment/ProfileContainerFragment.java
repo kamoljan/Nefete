@@ -16,28 +16,52 @@ import com.facebook.UiLifecycleHelper;
 import org.kamol.nefete.BaseFragment;
 import org.kamol.nefete.R;
 
-public class InsertAdContainerFragment extends BaseFragment {
-  static final String TAG = "InsertAdContainerFragment";
+public class ProfileContainerFragment extends BaseFragment {
+  private static final String TAG = "ProfileContainerFragment";
   private UiLifecycleHelper uiHelper;
-  private Fragment insertAdFragment;
   private Fragment splashFragment;
+  private Fragment myAdsFragment;
   private Session.StatusCallback callback = new Session.StatusCallback() {
     @Override public void call(Session session, SessionState state, Exception exception) {
       onSessionStateChange(session, state, exception);
     }
   };
 
-  public static InsertAdContainerFragment newInstance() {
-    return new InsertAdContainerFragment();
+  public static ProfileContainerFragment newInstance() {
+    return new ProfileContainerFragment();
   }
 
   private void onSessionStateChange(Session session, SessionState state, Exception exception) {
     if (state.isOpened()) {
       Log.i(TAG, "Logged in...");
-      showInsertAdFragment();
+      showMyAdsFragment();
     } else if (state.isClosed()) {
       Log.i(TAG, "Logged out...");
       showSplashFragment();
+    }
+  }
+
+  private void showSplashFragment() {
+    if (getChildFragmentManager().findFragmentByTag(SplashFragment.TAG) != null) {
+      splashFragment = getChildFragmentManager().findFragmentByTag(SplashFragment.TAG);
+    } else {
+      splashFragment = new SplashFragment();
+      FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+      transaction.replace(R.id.ll_fragment_container, splashFragment, SplashFragment.TAG);
+      transaction.addToBackStack(null);
+      transaction.commit();
+    }
+  }
+
+  private void showMyAdsFragment() {
+    if (getChildFragmentManager().findFragmentByTag(MyAdsFragment.TAG) != null) {
+      myAdsFragment = getChildFragmentManager().findFragmentByTag(MyAdsFragment.TAG);
+    } else {
+      myAdsFragment = new MyAdsFragment();
+      FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+      transaction.replace(R.id.ll_fragment_container, myAdsFragment, MyAdsFragment.TAG);
+      transaction.addToBackStack(null);
+      transaction.commit();
     }
   }
 
@@ -76,30 +100,6 @@ public class InsertAdContainerFragment extends BaseFragment {
   @Override public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
     uiHelper.onSaveInstanceState(outState);
-  }
-
-  private void showInsertAdFragment() {
-    if (getChildFragmentManager().findFragmentByTag(InsertAdFragment.TAG) != null) {
-      insertAdFragment = getChildFragmentManager().findFragmentByTag(InsertAdFragment.TAG);
-    } else {
-      insertAdFragment = new InsertAdFragment();
-      FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-      transaction.replace(R.id.ll_fragment_container, insertAdFragment, InsertAdFragment.TAG);
-      transaction.addToBackStack(null);
-      transaction.commit();
-    }
-  }
-
-  private void showSplashFragment() {
-    if (getChildFragmentManager().findFragmentByTag("SplashFragment") != null) {
-      splashFragment = getChildFragmentManager().findFragmentByTag("SplashFragment");
-    } else {
-      splashFragment = new SplashFragment();
-      FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-      transaction.replace(R.id.ll_fragment_container, splashFragment, SplashFragment.TAG);
-      transaction.addToBackStack(null);
-      transaction.commit();
-    }
   }
 
   @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {

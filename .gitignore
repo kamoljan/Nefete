@@ -30,4 +30,7 @@ proguard/
 .DS_Store
 *.iml
 
+# My Backup files
+.javab
+
 

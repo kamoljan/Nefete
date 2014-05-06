@@ -18,13 +18,11 @@
             android:text="@string/app_name"/>
     <TextView
             android:id="@+id/tv_message"
-            android:layout_width="174dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="35dp"
             android:textColor="#AFDEFE"
-            android:lines="2"
-            android:textSize="17sp"
-            android:text="Login to post your add"
+            android:text="@string/facebook_login_message"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"/>
     <com.facebook.widget.LoginButton

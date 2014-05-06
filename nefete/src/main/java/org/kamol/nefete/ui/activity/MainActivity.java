@@ -18,7 +18,7 @@ import org.kamol.nefete.event.ActivityResultEvent;
 import org.kamol.nefete.ui.fragment.InsertAdContainerFragment;
 import org.kamol.nefete.ui.fragment.ListingFragment;
 import org.kamol.nefete.ui.fragment.MainFragment;
-import org.kamol.nefete.ui.fragment.ProfileFragment;
+import org.kamol.nefete.ui.fragment.ProfileContainerFragment;
 
 import javax.inject.Inject;
 
@@ -128,7 +128,7 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener 
         case 1:
           return InsertAdContainerFragment.newInstance();
         default:
-          return ProfileFragment.newInstance();
+          return ProfileContainerFragment.newInstance();
       }
     }
 

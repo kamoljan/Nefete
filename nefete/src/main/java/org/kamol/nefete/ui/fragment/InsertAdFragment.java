@@ -292,6 +292,7 @@ public class InsertAdFragment extends BaseFragment implements ImageChooserDialog
             mAd.setImage1(message.data.newborn);
             insertAdImageAdapter.addItem(GoRestClient.getAbsoluteUrl(":9090/egg/" + mAd
                 .getImage1()));
+            insertAdImageAdapter.showProcessBar();
           }
         }
       }

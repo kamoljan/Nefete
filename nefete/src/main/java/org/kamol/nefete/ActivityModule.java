@@ -11,12 +11,12 @@ import dagger.Provides;
 
 import org.kamol.nefete.event.ActivityResultEvent;
 import org.kamol.nefete.ui.activity.MainActivity;
-import org.kamol.nefete.ui.activity.ViewActivity;
 import org.kamol.nefete.ui.fragment.InsertAdContainerFragment;
 import org.kamol.nefete.ui.fragment.InsertAdFragment;
 import org.kamol.nefete.ui.fragment.ListingFragment;
 import org.kamol.nefete.ui.fragment.MainFragment;
-import org.kamol.nefete.ui.fragment.ProfileFragment;
+import org.kamol.nefete.ui.fragment.MyAdsFragment;
+import org.kamol.nefete.ui.fragment.ProfileContainerFragment;
 
 /**
  * This module represents objects which exist only for the scope of a single activity.
@@ -30,8 +30,9 @@ import org.kamol.nefete.ui.fragment.ProfileFragment;
         ListingFragment.class,
         InsertAdFragment.class,
         InsertAdContainerFragment.class,
+        ProfileContainerFragment.class,
         ActivityResultEvent.class,
-        ProfileFragment.class
+        MyAdsFragment.class
     },
     addsTo = AndroidModule.class,
     library = true
