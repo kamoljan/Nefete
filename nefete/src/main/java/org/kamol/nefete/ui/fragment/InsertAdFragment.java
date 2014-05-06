@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Spinner;
+import android.widget.TabHost;
 import android.widget.Toast;
 
 import com.facebook.Request;
@@ -160,6 +161,9 @@ public class InsertAdFragment extends BaseFragment implements ImageChooserDialog
                   if (mes.status.equals("OK")) {
                     Toast.makeText(getActivity(), "Hooray, " +
                         "your ad has been posted successfully!", Toast.LENGTH_SHORT).show();
+                    // Clear All fields
+                    cleanInsertAdForm();
+
                   }
                 }
               });
@@ -169,6 +173,19 @@ public class InsertAdFragment extends BaseFragment implements ImageChooserDialog
       });
       Request.executeBatchAsync(request);
     }
+  }
+
+  // Clear All fields
+  protected void cleanInsertAdForm() {
+    mAd = new Ad();
+    etTitle.getText().clear();
+    etDescription.getText().clear();
+    etPrice.getText().clear();
+    insertAdImageAdapter.removeItem(0); //TODO: need to support any amount of image
+    setSpCurrencyContent();
+    setSpCategoryContent();
+
+    getActivity().getActionBar().setSelectedNavigationItem(2);
   }
 
   @Override public void onCloseDialog(int item) {
