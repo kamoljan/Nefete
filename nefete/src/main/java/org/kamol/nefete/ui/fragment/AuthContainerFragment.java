@@ -16,21 +16,18 @@ import com.facebook.UiLifecycleHelper;
 import org.kamol.nefete.BaseFragment;
 import org.kamol.nefete.R;
 
-public class AuthContainerFragment extends BaseFragment {
+public abstract class AuthContainerFragment extends BaseFragment {
   private static final String TAG = "ProfileContainerFragment";
   private UiLifecycleHelper uiHelper;
   private Fragment splashFragment;
-  private Fragment authFragment;
-
-  public AuthContainerFragment(Fragment fragment) {
-    this.authFragment = fragment;
-  }
-
   private Session.StatusCallback callback = new Session.StatusCallback() {
     @Override public void call(Session session, SessionState state, Exception exception) {
       onSessionStateChange(session, state, exception);
     }
   };
+
+  // Implement your own showAuthFragment
+  public abstract void showAuthFragment();
 
   private void onSessionStateChange(Session session, SessionState state, Exception exception) {
     if (state.isOpened()) {
@@ -52,16 +49,6 @@ public class AuthContainerFragment extends BaseFragment {
       transaction.addToBackStack(null);
       transaction.commit();
     }
-  }
-
-  private void showAuthFragment() {
-    if (getChildFragmentManager().findFragmentByTag(authFragment.getTag()) != null) {
-      authFragment = getChildFragmentManager().findFragmentByTag(authFragment.getTag());
-    }
-    FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-    transaction.replace(R.id.ll_fragment_container, authFragment, authFragment.getTag());
-    transaction.addToBackStack(null);
-    transaction.commit();
   }
 
   @Override public void onCreate(Bundle savedInstanceState) {
