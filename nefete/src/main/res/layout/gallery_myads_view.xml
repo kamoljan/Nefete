@@ -23,7 +23,7 @@
         android:layout_height="match_parent"
         android:layout_marginRight="-1px"
         android:listSelector="@android:color/transparent"
-        app:item_margin="4dp"
+        app:item_margin="1dp"
         />
   </org.kamol.nefete.ui.gallery.MyAdsView>
 </LinearLayout>

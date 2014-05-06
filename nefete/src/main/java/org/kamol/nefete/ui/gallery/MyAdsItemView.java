@@ -22,6 +22,7 @@ import butterknife.OnClick;
 import timber.log.Timber;
 
 public class MyAdsItemView extends FrameLayout {
+  RoundedTransformation transformation = new RoundedTransformation(15, 0);
   @InjectView(R.id.gallery_image_image) ImageView image;
   @InjectView(R.id.gallery_image_title) TextView title;
   @InjectView(R.id.profilePicture) ProfilePictureView profilePictureView;
@@ -70,7 +71,7 @@ public class MyAdsItemView extends FrameLayout {
     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
     if (request != null) {
-      request.resize(width, height).centerCrop().into(image);
+      request.resize(width, height).centerCrop().transform(transformation).into(image);
       request = null;
     }
   }
