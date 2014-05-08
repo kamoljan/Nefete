@@ -1,19 +1,9 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:0.9.+'
-    }
-}
-
 apply plugin: 'android-library'
 
 dependencies {
     compile 'com.android.support:support-v4:13.0.+'
+    compile files('libs/bolts.jar')
 }
-
-apply plugin: 'android-library'
 
 android {
     compileSdkVersion 19
@@ -22,6 +12,10 @@ android {
     defaultConfig {
         minSdkVersion 8
         targetSdkVersion 19
+    }
+
+    lintOptions {
+        abortOnError false
     }
 
     sourceSets {
