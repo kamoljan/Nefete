@@ -1,1 +1,1 @@
-include ':libraries:facebook', ':libraries:image-chooser-library', ':nefete'
+include ':libraries:facebook', ':nefete'
