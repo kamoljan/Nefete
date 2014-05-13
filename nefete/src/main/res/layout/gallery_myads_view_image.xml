@@ -28,8 +28,8 @@
       tools:text="This Is The Title"
       style="@style/Widget.Nefete.GalleryImage"
       />
-  <com.facebook.widget.ProfilePictureView
-      android:id="@+id/profilePicture"
+  <ImageView
+      android:id="@+id/iv_profile_picture"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:visibility="gone"

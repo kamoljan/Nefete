@@ -8,7 +8,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.widget.ProfilePictureView;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 
@@ -16,16 +19,12 @@ import org.kamol.nefete.R;
 import org.kamol.nefete.data.api.model.Image;
 import org.kamol.nefete.ui.activity.ViewActivity;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnClick;
-import timber.log.Timber;
-
 public class MyAdsItemView extends FrameLayout {
   RoundedTransformation transformation = new RoundedTransformation(15, 0);
+  RoundedTransformation transformationProfile = new RoundedTransformation(100, 0);
   @InjectView(R.id.gallery_image_image) ImageView image;
   @InjectView(R.id.gallery_image_title) TextView title;
-  @InjectView(R.id.profilePicture) ProfilePictureView profilePictureView;
+  @InjectView(R.id.iv_profile_picture) ImageView profilePicture;
   private String buyerProfile;
   private float aspectRatio = 1;
   private RequestCreator request;
@@ -48,13 +47,17 @@ public class MyAdsItemView extends FrameLayout {
     title.setText(item.title);
     if (item.chat != null) {
       buyerProfile = item.chat[0];  // TODO display other chats
-      profilePictureView.setProfileId(buyerProfile);
-      profilePictureView.setPresetSize(ProfilePictureView.SMALL);
-      profilePictureView.setVisibility(VISIBLE);
+      Picasso.with(getContext())
+          .load("http://graph.facebook.com/" + item.chat[0] + "/picture?type=normal")
+          .resize(150, 150)
+          .centerCrop()
+          .transform(transformationProfile)
+          .into(profilePicture);
+      profilePicture.setVisibility(VISIBLE);
     }
   }
 
-  @OnClick(R.id.profilePicture) void onStartViewActivityWithChat() {
+  @OnClick(R.id.iv_profile_picture) void onStartViewActivityWithChat() {
     startViewActivity(buyerProfile);
   }
 
