@@ -12,6 +12,7 @@ import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.model.GraphUser;
+import com.parse.ParseFacebookUtils;
 import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
@@ -48,23 +49,25 @@ public class MyAdsView extends BetterViewAnimator {
 
   @Override protected void onAttachedToWindow() {
     super.onAttachedToWindow();
-
-    final Session session = Session.getActiveSession();
+    // Fetch Facebook user info if the session is active
+    Session session = ParseFacebookUtils.getSession();
     if (session != null && session.isOpened()) {
-      // If the session is open, make an API call to get user data
-      // and define a new callback to handle the response
-      Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
-        @Override public void onCompleted(GraphUser user, Response response) {
-          // If the response is successful
-          if (session == Session.getActiveSession()) {
+      makeMeRequest();
+    }
+  }
+
+  private void makeMeRequest() {
+    Request request = Request.newMeRequest(ParseFacebookUtils.getSession(),
+        new Request.GraphUserCallback() {
+          @Override
+          public void onCompleted(GraphUser user, Response response) {
             if (user != null) {
               setGalleryByProfile(user.getId());
             }
           }
         }
-      });
-      Request.executeBatchAsync(request);
-    }
+    );
+    request.executeAsync();
   }
 
   protected void setGalleryByProfile(String profile) {

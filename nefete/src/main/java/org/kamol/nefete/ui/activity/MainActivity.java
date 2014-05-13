@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import com.parse.ParseFacebookUtils;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Produce;
 
@@ -155,6 +156,7 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener 
     mResultCode = resultCode;
     mData = data;
 //    bus.post(produceActivityResultEvent()); // redundant
+    ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
   }
 
   @Override public void onResume() {

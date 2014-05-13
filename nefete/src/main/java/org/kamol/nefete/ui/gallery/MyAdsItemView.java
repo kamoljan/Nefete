@@ -47,7 +47,7 @@ public class MyAdsItemView extends FrameLayout {
     adId = item.id;
     title.setText(item.title);
     if (item.chat != null) {
-      buyerProfile = item.chat[0];
+      buyerProfile = item.chat[0];  // TODO display other chats
       profilePictureView.setProfileId(buyerProfile);
       profilePictureView.setPresetSize(ProfilePictureView.SMALL);
       profilePictureView.setVisibility(VISIBLE);

@@ -26,6 +26,11 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.parse.Parse;
+import com.parse.ParseAnalytics;
+import com.parse.ParseInstallation;
+import com.parse.PushService;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -71,9 +76,11 @@ public class ViewActivity extends ListActivity {
   ArrayList<Message> messages;
   ChatAdapter adapter;
   private Gson gson = new Gson();
- @OnClick(R.id.ib_back) public  void onClickBtnBack(){
-     super.onBackPressed();
- }
+
+  @OnClick(R.id.ib_back) public void onClickBtnBack() {
+    super.onBackPressed();
+  }
+
   @OnClick(R.id.b_message) public void onClickBtnMessage() {
     if (etMessage.getText() == null) {
       return; // do nothing if no message

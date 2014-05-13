@@ -6,6 +6,13 @@ import android.content.Context;
 import java.util.Arrays;
 import java.util.List;
 
+import com.parse.Parse;
+import com.parse.ParseFacebookUtils;
+import com.parse.ParseInstallation;
+import com.parse.PushService;
+
+import org.kamol.nefete.ui.activity.ViewActivity;
+
 import dagger.ObjectGraph;
 import timber.log.Timber;
 
@@ -16,6 +23,11 @@ public class NefeteApp extends Application {
 
   @Override public void onCreate() {
     super.onCreate();
+
+    Parse.initialize(this, "aTAL8FkWWQRG2bsilzCzwQpVMY2YCK8skFryZIFa", "vLefUWhxBk12E8X4oighFYt25iGnMYRTUP58RDJg");
+    ParseFacebookUtils.initialize(getString(R.string.app_id));
+    PushService.setDefaultPushCallback(this, ViewActivity.class);
+    ParseInstallation.getCurrentInstallation().saveInBackground();
 
     if (BuildConfig.DEBUG) {
       Timber.plant(new DebugTree());
