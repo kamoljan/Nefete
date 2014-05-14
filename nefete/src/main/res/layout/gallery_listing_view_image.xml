@@ -8,7 +8,7 @@
     android:background="@drawable/gallery_item_background"
     >
   <org.kamol.nefete.ui.misc.ForegroundImageView
-      android:id="@+id/gallery_image_image"
+      android:id="@+id/fiv_image"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:foreground="@drawable/image_overlay"
@@ -16,7 +16,7 @@
       tools:src="#f00"
       />
   <TextView
-      android:id="@+id/gallery_image_title"
+      android:id="@+id/tv_title"
       android:layout_width="match_parent"
       android:layout_height="48dp"
       android:layout_gravity="bottom"

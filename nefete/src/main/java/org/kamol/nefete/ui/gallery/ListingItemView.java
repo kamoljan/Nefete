@@ -21,8 +21,8 @@ import org.kamol.nefete.ui.activity.ViewActivity;
 
 public class ListingItemView extends FrameLayout {
   RoundedTransformation transformation = new RoundedTransformation(15, 0);
-  @InjectView(R.id.gallery_image_image) ImageView image;
-  @InjectView(R.id.gallery_image_title) TextView title;
+  @InjectView(R.id.fiv_image) ImageView image;
+  @InjectView(R.id.tv_title) TextView title;
   private float aspectRatio = 1;
   private RequestCreator request;
   private String adId;
@@ -62,7 +62,7 @@ public class ListingItemView extends FrameLayout {
     }
   }
 
-  @OnClick(R.id.gallery_image_image) void onStartViewActivity() {
+  @OnClick(R.id.fiv_image) void onStartViewActivity() {
     Intent i = new Intent(getContext(), ViewActivity.class);
     Bundle b = new Bundle();
     b.putString("adId", adId);

@@ -22,12 +22,12 @@ import org.kamol.nefete.ui.activity.ViewActivity;
 public class MyAdsItemView extends FrameLayout {
   RoundedTransformation transformation = new RoundedTransformation(15, 0);
   RoundedTransformation transformationProfile = new RoundedTransformation(100, 0);
-  @InjectView(R.id.gallery_image_image) ImageView image;
-  @InjectView(R.id.gallery_image_title) TextView title;
-  @InjectView(R.id.iv_profile_picture) ImageView profilePicture;
+  @InjectView(R.id.fiv_image) ImageView fivImage;
+  @InjectView(R.id.tv_title) TextView tvTitle;
+  @InjectView(R.id.iv_profile_picture) ImageView ivProfilePicture;
   private String buyerProfile;
   private float aspectRatio = 1;
-  private RequestCreator request;
+  private RequestCreator requestImage;
   private String adId;
 
   public MyAdsItemView(Context context, AttributeSet attrs) {
@@ -40,21 +40,23 @@ public class MyAdsItemView extends FrameLayout {
   }
 
   public void bindTo(Image item, Picasso picasso) {
-    request = picasso.load(item.link);
+    requestImage = picasso.load(item.link);
     aspectRatio = 1f * item.width / item.height;
-    requestLayout();
     adId = item.id;
-    title.setText(item.title);
+    tvTitle.setText(item.title);
+    ivProfilePicture.setImageResource(R.drawable.ic_menu_search); // weird hack
+    ivProfilePicture.setVisibility(INVISIBLE);
     if (item.chat != null) {
       buyerProfile = item.chat[0];  // TODO display other chats
       Picasso.with(getContext())
-          .load("http://graph.facebook.com/" + item.chat[0] + "/picture?type=normal")
+          .load("http://graph.facebook.com/" + buyerProfile + "/picture?type=normal")
           .resize(150, 150)
           .centerCrop()
           .transform(transformationProfile)
-          .into(profilePicture);
-      profilePicture.setVisibility(VISIBLE);
+          .into(ivProfilePicture);
+      ivProfilePicture.setVisibility(VISIBLE);
     }
+    requestLayout();
   }
 
   @OnClick(R.id.iv_profile_picture) void onStartViewActivityWithChat() {
@@ -73,13 +75,13 @@ public class MyAdsItemView extends FrameLayout {
     heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-    if (request != null) {
-      request.resize(width, height).centerCrop().transform(transformation).into(image);
-      request = null;
+    if (requestImage != null) {
+      requestImage.resize(width, height).centerCrop().transform(transformation).into(fivImage);
+      requestImage = null;
     }
   }
 
-  @OnClick(R.id.gallery_image_image) void onStartViewActivity() {
+  @OnClick(R.id.fiv_image) void onStartViewActivity() {
     startViewActivity(null);
   }
 
