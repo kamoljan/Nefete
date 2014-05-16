@@ -4,6 +4,9 @@
   <string name="app_name">Nefete</string>
   <string name="app_id">1454662381420609</string>
   <string name="login">Log In</string>
+  <string name="delete">Delete</string>
+  <string name="sold_out">Sold out</string>
+
   <string name="title_section1">Section 1</string>
   <string name="title_section2">Section 2</string>
   <string name="title_section3">Section 3</string>

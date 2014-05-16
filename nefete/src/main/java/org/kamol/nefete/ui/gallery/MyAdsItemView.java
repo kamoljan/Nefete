@@ -11,6 +11,8 @@ import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
+import timber.log.Timber;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
@@ -83,6 +85,12 @@ public class MyAdsItemView extends FrameLayout {
 
   @OnClick(R.id.fiv_image) void onStartViewActivity() {
     startViewActivity(null);
+  }
+
+  @OnLongClick(R.id.fiv_image) boolean showMyAdsContextMenu() {
+    // TODO implement popupWindow
+    Timber.d("it works works!!");
+    return true;
   }
 
   private void startViewActivity(String p) {

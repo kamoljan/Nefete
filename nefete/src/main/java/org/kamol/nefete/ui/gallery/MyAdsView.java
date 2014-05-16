@@ -6,7 +6,9 @@ import javax.inject.Inject;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.AbsListView;
+import android.widget.Toast;
 
 import com.facebook.Request;
 import com.facebook.Response;
@@ -43,7 +45,6 @@ public class MyAdsView extends BetterViewAnimator {
   @Override protected void onFinishInflate() {
     super.onFinishInflate();
     ButterKnife.inject(this);
-
     galleryView.setAdapter(adapter);
   }
 

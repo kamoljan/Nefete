@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.Request;
 import com.facebook.Response;
@@ -21,6 +22,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.parse.ParseFacebookUtils;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -49,6 +51,7 @@ import org.kamol.nefete.data.api.model.Ad;
 import org.kamol.nefete.http.GoRestClient;
 import org.kamol.nefete.data.chat.Message;
 import org.kamol.nefete.ui.adapter.ChatAdapter;
+import org.kamol.nefete.ui.fragment.InsertAdFragment;
 
 import java.util.ArrayList;
 
@@ -73,6 +76,7 @@ public class ViewActivity extends ListActivity {
   @InjectView(R.id.tv_description) TextView tvDescription;
   @InjectView(R.id.rl_write_bar) RelativeLayout rlWriteBar;
   @InjectView(R.id.ib_back) ImageButton ibBack;
+  @InjectView(R.id.b_delete) Button bDelete;
   ArrayList<Message> messages;
   ChatAdapter adapter;
   private Gson gson = new Gson();
@@ -113,10 +117,41 @@ public class ViewActivity extends ListActivity {
 
   @Override public void onDestroy() {
     super.onDestroy();
-
     if (channel != null) {
       pubnub.unsubscribe(channel);
       channel = null;
+    }
+  }
+
+  @OnClick(R.id.b_delete) public void onClickBtnDelete() {
+    final Session session = ParseFacebookUtils.getSession();
+    if (session != null && session.isOpened()) {
+      Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
+        @Override public void onCompleted(GraphUser user, Response response) {
+          if (session == Session.getActiveSession()) {
+            if (user != null) {
+              facebookId = user.getId();
+              GoRestClient.delete(":8080/ad/" + adId + "/" + session.getAccessToken(),
+                  new JsonHttpResponseHandler() {
+                    @Override public void onSuccess(JSONObject jsonObject) {
+                      Timber.d(jsonObject.toString());
+                      Gson gson = new GsonBuilder().create();
+                      InsertAdFragment.MessagePostAd mes = gson.fromJson(jsonObject.toString(),
+                          InsertAdFragment.MessagePostAd.class);
+                      if (mes.status.equals("OK")) {
+                        Toast.makeText(getApplicationContext(), "Hooray, " +
+                                "your ad has been deleted successfully!", Toast.LENGTH_SHORT
+                        ).show();
+                        ViewActivity.this.finish();
+                      }
+                    }
+                  }
+              );
+            }
+          }
+        }
+      });
+      Request.executeBatchAsync(request);
     }
   }
 
@@ -133,6 +168,7 @@ public class ViewActivity extends ListActivity {
           recallChannel(buyerProfile + adId, true);
         } else {
           rlWriteBar.setVisibility(View.GONE);
+          bDelete.setVisibility(View.VISIBLE);
         }
       } else {
         if (checkFacebookLogin() != null) {
@@ -180,7 +216,7 @@ public class ViewActivity extends ListActivity {
   }
 
   private void recallChannel(final String c, final boolean withHistory) {
-    final Session session = Session.getActiveSession();
+    final Session session = ParseFacebookUtils.getSession();
     if (session != null && session.isOpened()) {
       Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
         @Override public void onCompleted(GraphUser user, Response response) {
@@ -208,7 +244,7 @@ public class ViewActivity extends ListActivity {
   }
 
   private void createBuyerChannel() {
-    final Session session = Session.getActiveSession();
+    final Session session = ParseFacebookUtils.getSession();
     if (session != null && session.isOpened()) {
       Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
         @Override public void onCompleted(GraphUser user, Response response) {
@@ -227,7 +263,7 @@ public class ViewActivity extends ListActivity {
   }
 
   private String checkFacebookLogin() {
-    final Session session = Session.getActiveSession();
+    final Session session = ParseFacebookUtils.getSession();
     if (session != null && session.isOpened()) {
       Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
         @Override public void onCompleted(GraphUser user, Response response) {
