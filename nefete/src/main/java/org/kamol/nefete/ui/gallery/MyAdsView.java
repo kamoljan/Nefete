@@ -93,8 +93,7 @@ public class MyAdsView extends BetterViewAnimator {
 
   @Subscribe public void onRefreshEvent(RefreshEvent event) {
     if (event.eventName.equals("RefreshMyAdsAdapter")) {
-      adapter.notifyDataSetChanged();
-      galleryView.invalidateViews();
+      makeMeRequest();
     }
   }
 

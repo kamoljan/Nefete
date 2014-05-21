@@ -35,6 +35,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.kamol.nefete.BaseFragment;
 import org.kamol.nefete.R;
+import org.kamol.nefete.event.RefreshEvent;
 import org.kamol.nefete.ui.adapter.InsertAdImageAdapter;
 import org.kamol.nefete.data.api.model.Ad;
 import org.kamol.nefete.event.ActivityResultEvent;
@@ -162,7 +163,7 @@ public class InsertAdFragment extends BaseFragment implements ImageChooserDialog
                         "your ad has been posted successfully!", Toast.LENGTH_SHORT).show();
                     // Clear All fields
                     cleanInsertAdForm();
-
+                    bus.post(new RefreshEvent("RefreshMyAdsAdapter"));
                   }
                 }
               });
