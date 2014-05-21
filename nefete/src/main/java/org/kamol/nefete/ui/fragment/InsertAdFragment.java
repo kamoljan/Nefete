@@ -18,7 +18,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Spinner;
-import android.widget.TabHost;
 import android.widget.Toast;
 
 import com.facebook.Request;
@@ -216,22 +215,6 @@ public class InsertAdFragment extends BaseFragment implements ImageChooserDialog
         getActivity().getPackageName() + "/cache/insert_ad.jpg");
   }
 
-  @Subscribe public void onActivityResultEvent(ActivityResultEvent event) {
-    if (event.resultCode != Activity.RESULT_OK) return;
-    Uri imageUri;
-    switch (event.requestCode) {
-      case REQUEST_TAKE: // REQUEST_TAKE (file://), data = null
-        File file = getTempImageFile();
-        imageUri = Uri.fromFile(file);
-        putImageFromUri(imageUri);
-        break;
-      case REQUEST_BROWSE: // REQUEST_BROWSE (content:// or file://)
-        imageUri = event.data.getData();
-        putImageFromUri(imageUri);
-        break;
-    }
-  }
-
   private void putImageFromUri(Uri imageUri) {
     ByteArrayOutputStream stream = new ByteArrayOutputStream();
     try {
@@ -373,5 +356,21 @@ public class InsertAdFragment extends BaseFragment implements ImageChooserDialog
 
       @Override public void onNothingSelected(AdapterView<?> parent) {}
     });
+  }
+
+  @Subscribe public void onActivityResultEvent(ActivityResultEvent event) {
+    if (event.resultCode != Activity.RESULT_OK) return;
+    Uri imageUri;
+    switch (event.requestCode) {
+      case REQUEST_TAKE: // REQUEST_TAKE (file://), data = null
+        File file = getTempImageFile();
+        imageUri = Uri.fromFile(file);
+        putImageFromUri(imageUri);
+        break;
+      case REQUEST_BROWSE: // REQUEST_BROWSE (content:// or file://)
+        imageUri = event.data.getData();
+        putImageFromUri(imageUri);
+        break;
+    }
   }
 }

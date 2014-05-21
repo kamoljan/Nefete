@@ -2,8 +2,6 @@ package org.kamol.nefete;
 
 import android.content.Context;
 
-import com.squareup.otto.Bus;
-
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -17,6 +15,7 @@ import org.kamol.nefete.ui.fragment.ListingFragment;
 import org.kamol.nefete.ui.fragment.MainFragment;
 import org.kamol.nefete.ui.fragment.MyAdsFragment;
 import org.kamol.nefete.ui.fragment.ProfileContainerFragment;
+import org.kamol.nefete.ui.gallery.MyAdsView;
 
 /**
  * This module represents objects which exist only for the scope of a single activity.
@@ -32,6 +31,7 @@ import org.kamol.nefete.ui.fragment.ProfileContainerFragment;
         InsertAdContainerFragment.class,
         ProfileContainerFragment.class,
         ActivityResultEvent.class,
+        MyAdsView.class,
         MyAdsFragment.class
     },
     addsTo = AndroidModule.class,
@@ -52,7 +52,8 @@ public class ActivityModule {
     return activity;
   }
 
-  @Provides @Singleton Bus provideBus() {
-    return new Bus();
-  }
+  // for Insert Ad?
+  //  @Provides @Singleton Bus provideBus() {
+  //    return new Bus();
+  //  }
 }

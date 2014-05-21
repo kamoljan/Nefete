@@ -23,6 +23,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.parse.ParseFacebookUtils;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Produce;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -48,10 +50,12 @@ import org.kamol.nefete.NefeteApp;
 import org.kamol.nefete.R;
 import org.kamol.nefete.data.api.ChatService;
 import org.kamol.nefete.data.api.model.Ad;
+import org.kamol.nefete.event.RefreshEvent;
 import org.kamol.nefete.http.GoRestClient;
 import org.kamol.nefete.data.chat.Message;
 import org.kamol.nefete.ui.adapter.ChatAdapter;
 import org.kamol.nefete.ui.fragment.InsertAdFragment;
+import org.kamol.nefete.ui.gallery.MyAdsAdapter;
 
 import java.util.ArrayList;
 
@@ -77,6 +81,7 @@ public class ViewActivity extends ListActivity {
   @InjectView(R.id.rl_write_bar) RelativeLayout rlWriteBar;
   @InjectView(R.id.ib_back) ImageButton ibBack;
   @InjectView(R.id.b_delete) Button bDelete;
+  @Inject Bus bus;
   ArrayList<Message> messages;
   ChatAdapter adapter;
   private Gson gson = new Gson();
@@ -142,6 +147,7 @@ public class ViewActivity extends ListActivity {
                         Toast.makeText(getApplicationContext(), "Hooray, " +
                                 "your ad has been deleted successfully!", Toast.LENGTH_SHORT
                         ).show();
+                        bus.post(new RefreshEvent("RefreshMyAdsAdapter"));
                         ViewActivity.this.finish();
                       }
                     }
@@ -153,6 +159,10 @@ public class ViewActivity extends ListActivity {
       });
       Request.executeBatchAsync(request);
     }
+  }
+
+  @Produce public RefreshEvent productRefreshEvent(String even) {
+    return new RefreshEvent(even);
   }
 
   @Override public void onResume() {

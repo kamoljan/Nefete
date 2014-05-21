@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.location.LocationManager;
 
+import com.squareup.otto.Bus;
+
 import org.kamol.nefete.data.DataModule;
 import org.kamol.nefete.ui.gallery.ListingView;
 import org.kamol.nefete.ui.gallery.MyAdsView;
@@ -22,7 +24,7 @@ import static android.content.Context.LOCATION_SERVICE;
 @Module(
     injects = {
         ListingView.class,
-        MyAdsView.class
+        MyAdsView.class,
     },
     includes = DataModule.class,
     complete = false,
@@ -52,6 +54,10 @@ public class AndroidModule {
 
   @Provides @Singleton LocationManager provideLocationManager() {
     return (LocationManager) application.getSystemService(LOCATION_SERVICE);
+  }
+
+  @Provides @Singleton Bus provideBus() {
+    return new Bus();
   }
 
 }

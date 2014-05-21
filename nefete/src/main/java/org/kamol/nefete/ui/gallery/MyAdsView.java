@@ -6,15 +6,15 @@ import javax.inject.Inject;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.AbsListView;
-import android.widget.Toast;
 
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.model.GraphUser;
 import com.parse.ParseFacebookUtils;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
@@ -26,12 +26,14 @@ import org.kamol.nefete.R;
 import org.kamol.nefete.data.MyAdsDatabase;
 import org.kamol.nefete.data.api.model.Image;
 import org.kamol.nefete.data.rx.EndlessObserver;
+import org.kamol.nefete.event.RefreshEvent;
 import org.kamol.nefete.ui.misc.BetterViewAnimator;
 
 public class MyAdsView extends BetterViewAnimator {
   @InjectView(R.id.gallery_grid) AbsListView galleryView;
   @Inject Picasso picasso;
   @Inject MyAdsDatabase myAdsDatabase;
+  @Inject Bus bus;
   private Subscription request;
   private final MyAdsAdapter adapter;
 
@@ -40,6 +42,7 @@ public class MyAdsView extends BetterViewAnimator {
     NefeteApp.get(context).inject(this);
 
     adapter = new MyAdsAdapter(context, picasso);
+
   }
 
   @Override protected void onFinishInflate() {
@@ -55,13 +58,13 @@ public class MyAdsView extends BetterViewAnimator {
     if (session != null && session.isOpened()) {
       makeMeRequest();
     }
+    bus.register(this);
   }
 
   private void makeMeRequest() {
     Request request = Request.newMeRequest(ParseFacebookUtils.getSession(),
         new Request.GraphUserCallback() {
-          @Override
-          public void onCompleted(GraphUser user, Response response) {
+          @Override public void onCompleted(GraphUser user, Response response) {
             if (user != null) {
               setGalleryByProfile(user.getId());
             }
@@ -85,6 +88,16 @@ public class MyAdsView extends BetterViewAnimator {
       request.unsubscribe();
     }
     super.onDetachedFromWindow();
+    bus.unregister(this);
   }
+
+  @Subscribe public void onRefreshEvent(RefreshEvent event) {
+    if (event.eventName.equals("RefreshMyAdsAdapter")) {
+      adapter.notifyDataSetChanged();
+      galleryView.invalidateViews();
+    }
+  }
+
+
 }
 

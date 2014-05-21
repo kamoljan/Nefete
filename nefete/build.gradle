@@ -45,14 +45,14 @@ dependencies {
 
     compile project(':libraries:facebook')
 
-    //TODO: remove it - insert ad
+    //TODO: remove it - insert ad/delete ad
     compile 'com.loopj.android:android-async-http:1.4.4'
 }
 
 // Manifest version information!
 def versionMajor = 1
 def versionMinor = 2
-def versionPatch = 2
+def versionPatch = 3
 def versionBuild = 0 // bump for dogfood builds, public betas, etc.
 
 android {

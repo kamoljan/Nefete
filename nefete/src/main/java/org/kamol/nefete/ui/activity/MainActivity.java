@@ -156,6 +156,7 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener 
     mResultCode = resultCode;
     mData = data;
 //    bus.post(produceActivityResultEvent()); // redundant
+    // TODO https://www.parse.com/questions/parsefacebookutilsfinishauthentication-throws-npe-if-activity-was-destroyed-while-switching-to-fb-app
     ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
   }
 
