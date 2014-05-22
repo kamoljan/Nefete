@@ -152,12 +152,14 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener 
 
   @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
+    // FIX https://www.parse.com/questions/nullpointerexceptions-from-the-facebook-authentication
+    //if (requestCode == com.facebook.Session.DEFAULT_AUTHORIZE_ACTIVITY_CODE) {
+    if (requestCode == 32665) {
+      ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
+    }
     mRequestCode = requestCode;
     mResultCode = resultCode;
     mData = data;
-//    bus.post(produceActivityResultEvent()); // redundant
-    // TODO https://www.parse.com/questions/parsefacebookutilsfinishauthentication-throws-npe-if-activity-was-destroyed-while-switching-to-fb-app
-    ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
   }
 
   @Override public void onResume() {
