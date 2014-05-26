@@ -55,7 +55,6 @@ import org.kamol.nefete.http.GoRestClient;
 import org.kamol.nefete.data.chat.Message;
 import org.kamol.nefete.ui.adapter.ChatAdapter;
 import org.kamol.nefete.ui.fragment.InsertAdFragment;
-import org.kamol.nefete.ui.gallery.MyAdsAdapter;
 
 import java.util.ArrayList;
 

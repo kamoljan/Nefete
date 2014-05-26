@@ -16,16 +16,31 @@
       tools:src="#f00"
       />
   <TextView
-      android:id="@+id/tv_title"
+      android:id="@+id/tv_price"
       android:layout_width="match_parent"
       android:layout_height="48dp"
       android:layout_gravity="bottom"
       android:gravity="bottom"
       android:background="@drawable/gradient_overlay"
-      android:padding="6dp"
+      android:paddingLeft="20dp"
+      android:paddingBottom="6dp"
       android:singleLine="true"
       android:ellipsize="end"
-      tools:text="This Is The Title"
+      tools:text="100"
       style="@style/Widget.Nefete.GalleryImage"
+      />
+  <TextView
+      android:id="@+id/tv_currency"
+      android:layout_width="match_parent"
+      android:layout_height="48dp"
+      android:layout_gravity="bottom"
+      android:gravity="bottom"
+      android:singleLine="true"
+      android:ellipsize="end"
+      android:paddingBottom="8dp"
+      android:paddingLeft="5dp"
+      tools:text="SGD"
+      android:textSize="7sp"
+      android:textColor="#fff"
       />
 </org.kamol.nefete.ui.gallery.ListingItemView>

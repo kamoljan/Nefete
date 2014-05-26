@@ -21,8 +21,9 @@ import org.kamol.nefete.ui.activity.ViewActivity;
 
 public class ListingItemView extends FrameLayout {
   RoundedTransformation transformation = new RoundedTransformation(15, 0);
-  @InjectView(R.id.fiv_image) ImageView image;
-  @InjectView(R.id.tv_title) TextView title;
+  @InjectView(R.id.fiv_image) ImageView ivImage;
+  @InjectView(R.id.tv_price) TextView tvPrice;
+  @InjectView(R.id.tv_currency) TextView tvCurrency;
   private float aspectRatio = 1;
   private RequestCreator request;
   private String adId;
@@ -40,7 +41,8 @@ public class ListingItemView extends FrameLayout {
     request = picasso.load(item.link);
     aspectRatio = 1f * item.width / item.height;
     requestLayout();
-    title.setText(item.title);
+    tvPrice.setText(item.price);
+    tvCurrency.setText(item.currency);
     adId = item.id; // ad id used for
   }
 
@@ -57,7 +59,7 @@ public class ListingItemView extends FrameLayout {
     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
     if (request != null) {
-      request.resize(width, height).centerCrop().transform(transformation).into(image);
+      request.resize(width, height).centerCrop().transform(transformation).into(ivImage);
       request = null;
     }
   }
